@@ -1,65 +1,84 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Puzzle, ArrowRight, Code2 } from "lucide-react";
 
 export default function Home() {
+  const puzzles = [
+    {
+      id: 95,
+      title: "API Key Dashboard",
+      description: "Secure masked key display with regeneration logic and premium dark UI.",
+      tags: ["Security", "UX", "Animation"]
+    }
+    // Add more puzzles here as they are created
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-background text-foreground selection:bg-accent-primary selection:text-background">
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6 border-b border-glass-border">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 text-accent-primary mb-6">
+            <Puzzle size={24} />
+            <span className="text-sm font-mono tracking-widest uppercase">The Puzzle Repository</span>
+          </div>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.9]">
+            Frontend <span className="text-gradient">Mastery</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-muted-foreground text-xl max-w-2xl leading-relaxed">
+            A monorepo of pixel-perfect UI components and complex logic features. 
+            Built for performance, scalability, and absolute portability.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+      </section>
+
+      {/* Gallery Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {puzzles.map((p) => (
+              <Link 
+                key={p.id} 
+                href={`/puzzle-${p.id}`}
+                className="group relative block p-8 rounded-luxury glass hover:bg-glass-bg transition-all duration-500 luxury-shadow"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-4xl font-mono font-bold text-glass-border group-hover:text-accent-primary transition-colors">
+                    #{p.id}
+                  </span>
+                  <div className="p-2 rounded-full border border-glass-border group-hover:border-accent-primary group-hover:text-accent-primary transition-all">
+                    <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold mb-3 tracking-tight">{p.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  {p.description}
+                </p>
+
+                <div className="flex gap-2">
+                  {p.tags.map(tag => (
+                    <span key={tag} className="text-[10px] uppercase tracking-wider px-2 py-1 rounded bg-muted border border-glass-border">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-glass-border text-center">
+        <div className="flex items-center justify-center gap-6 mb-6">
+          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Code2 size={20} />
           </a>
         </div>
-      </main>
-    </div>
+        <p className="text-muted-foreground text-xs uppercase tracking-widest">
+          &copy; {new Date().getFullYear()} &mdash; TRW PUZZLES SYSTEM
+        </p>
+      </footer>
+    </main>
   );
 }
