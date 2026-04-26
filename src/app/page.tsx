@@ -10,6 +10,12 @@ export default function Home() {
       tags: ["localStorage", "UX", "Forms"]
     },
     {
+      id: 8,
+      title: "Visual Product Search",
+      description: "App that uses Google Lens (mock) and AI to find and normalize product names from an uploaded image.",
+      tags: ["AI", "Drag & Drop", "UX"]
+    },
+    {
       id: 95,
       title: "API Key Dashboard",
       description: "Secure masked key display with regeneration logic and premium dark UI.",
@@ -17,6 +23,7 @@ export default function Home() {
     }
     // Add more puzzles here as they are created
   ];
+
 
 
   return (
