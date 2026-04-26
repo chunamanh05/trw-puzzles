@@ -4,6 +4,12 @@ import { Puzzle, ArrowRight, Code2 } from "lucide-react";
 export default function Home() {
   const puzzles = [
     {
+      id: 5,
+      title: "Smart Pre-fill Form",
+      description: "Form that auto-saves to localStorage and pre-fills fields when the user returns — even after a refresh.",
+      tags: ["localStorage", "UX", "Forms"]
+    },
+    {
       id: 95,
       title: "API Key Dashboard",
       description: "Secure masked key display with regeneration logic and premium dark UI.",
@@ -11,6 +17,7 @@ export default function Home() {
     }
     // Add more puzzles here as they are created
   ];
+
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-accent-primary selection:text-background">
