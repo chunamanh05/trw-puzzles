@@ -16,6 +16,12 @@ export default function Home() {
       tags: ["AI", "Drag & Drop", "UX"]
     },
     {
+      id: 11,
+      title: "Dynamic Referral Headlines",
+      description: "Landing page that personalizes its headline based on the ?ref= query parameter, backed by a simulated database.",
+      tags: ["Query Params", "Personalization", "UX"]
+    },
+    {
       id: 95,
       title: "API Key Dashboard",
       description: "Secure masked key display with regeneration logic and premium dark UI.",
@@ -23,6 +29,7 @@ export default function Home() {
     }
     // Add more puzzles here as they are created
   ];
+
 
 
 
