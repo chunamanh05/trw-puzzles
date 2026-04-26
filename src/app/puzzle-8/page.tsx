@@ -168,7 +168,7 @@ export default function VisualSearch() {
                     <StatusStep
                       icon={<ImageIcon size={16} />}
                       title="Image Uploaded"
-                      active={searchState !== "idle"}
+                      active={true}
                       loading={searchState === "uploading"}
                     />
                     <StatusStep
