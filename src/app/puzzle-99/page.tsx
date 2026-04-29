@@ -186,10 +186,10 @@ function ScoreGauge({ score, max, glowColor }: { score: number; max: number; glo
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 
-type Phase = "quiz" | "result";
+type Phase = "start" | "quiz" | "result";
 
 export default function FitnessLeadScore() {
-  const [phase, setPhase]               = useState<Phase>("quiz");
+  const [phase, setPhase]               = useState<Phase>("start");
   const [currentQ, setCurrentQ]         = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);  // index in current Q
   const [totalScore, setTotalScore]     = useState(0);
@@ -216,7 +216,7 @@ export default function FitnessLeadScore() {
   };
 
   const handleRetake = () => {
-    setPhase("quiz");
+    setPhase("start");
     setCurrentQ(0);
     setSelectedOption(null);
     setTotalScore(0);
@@ -244,8 +244,39 @@ export default function FitnessLeadScore() {
         </span>
       </div>
 
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-2xl">
         <AnimatePresence mode="wait">
+
+          {/* ══ START PHASE ══ */}
+          {phase === "start" && (
+            <motion.div
+              key="start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="glass rounded-luxury p-12 text-center luxury-shadow flex flex-col items-center justify-center min-h-[400px]"
+            >
+              <div className="w-16 h-16 bg-accent-primary/10 rounded-2xl flex items-center justify-center mb-6 border border-accent-primary/20 text-accent-primary">
+                <Zap size={32} />
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-black mb-4 leading-tight">
+                Discover Your True<br />Fitness Potential
+              </h1>
+              <p className="text-muted-foreground mb-10 max-w-md mx-auto text-sm sm:text-base">
+                Take our 2-minute assessment to find out exactly which coaching program aligns with your goals, budget, and commitment level.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setPhase("quiz")}
+                className="w-full sm:w-auto px-10 h-14 bg-accent-primary text-background text-lg font-bold rounded-xl flex items-center justify-center gap-2 transition-all"
+              >
+                Start Assessment
+                <ChevronRight size={20} />
+              </motion.button>
+            </motion.div>
+          )}
 
           {/* ══ QUIZ PHASE ══ */}
           {phase === "quiz" && (
@@ -273,13 +304,13 @@ export default function FitnessLeadScore() {
               {/* Question Card */}
               <div className="glass rounded-luxury p-8 luxury-shadow">
                 {/* Question header */}
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center text-xl shrink-0">
+                <div className="flex items-start gap-5 mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center text-3xl shrink-0">
                     {question.icon}
                   </div>
-                  <div>
-                    <h2 className="text-lg font-bold leading-snug">{question.question}</h2>
-                    <p className="text-xs text-muted-foreground mt-1">{question.hint}</p>
+                  <div className="pt-1">
+                    <h2 className="text-2xl font-bold leading-snug">{question.question}</h2>
+                    <p className="text-sm text-muted-foreground mt-2">{question.hint}</p>
                   </div>
                 </div>
 
@@ -293,18 +324,18 @@ export default function FitnessLeadScore() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => setSelectedOption(idx)}
-                        className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left transition-all
+                        className={`w-full flex items-center gap-5 px-6 py-5 rounded-2xl border text-left transition-all
                           ${isSelected
                             ? "border-accent-primary/60 bg-accent-primary/10 text-foreground"
                             : "border-glass-border bg-black/20 text-muted-foreground hover:border-white/20 hover:text-foreground"
                           }`}
                       >
-                        <span className={`text-xs font-bold w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border transition-all
+                        <span className={`text-sm font-bold w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all
                           ${isSelected ? "bg-accent-primary text-background border-accent-primary" : "border-glass-border"}`}>
                           {opt.label}
                         </span>
-                        <span className="text-sm">{opt.text}</span>
-                        {isSelected && <CheckCircle size={16} className="ml-auto text-accent-primary shrink-0" />}
+                        <span className="text-lg font-medium">{opt.text}</span>
+                        {isSelected && <CheckCircle size={20} className="ml-auto text-accent-primary shrink-0" />}
                       </motion.button>
                     );
                   })}
@@ -316,14 +347,14 @@ export default function FitnessLeadScore() {
                   disabled={selectedOption === null}
                   whileHover={selectedOption !== null ? { scale: 1.02 } : {}}
                   whileTap={selectedOption !== null ? { scale: 0.98 } : {}}
-                  className={`w-full h-12 rounded-xl font-bold flex items-center justify-center gap-2 transition-all
+                  className={`w-full h-14 text-lg rounded-xl font-bold flex items-center justify-center gap-2 transition-all mt-4
                     ${selectedOption !== null
                       ? "bg-accent-primary text-background cursor-pointer"
                       : "bg-white/5 text-muted-foreground/40 cursor-not-allowed"
                     }`}
                 >
                   {isLastQ ? "See My Results" : "Next Question"}
-                  <ChevronRight size={18} />
+                  <ChevronRight size={20} />
                 </motion.button>
               </div>
             </motion.div>
@@ -336,6 +367,7 @@ export default function FitnessLeadScore() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
+              className="max-w-lg mx-auto"
             >
               <div className="glass rounded-luxury p-8 luxury-shadow text-center">
                 {/* Title */}
