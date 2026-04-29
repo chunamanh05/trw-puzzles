@@ -22,10 +22,17 @@ export default function Home() {
       tags: ["Query Params", "Personalization", "UX"]
     },
     {
+      id: 99,
+      title: "Fitness Lead Scoring",
+      description: "5-question quiz that scores answers, classifies leads into Cold / Warm / Hot tiers, and shows a dynamic CTA per result.",
+      tags: ["Lead Scoring", "Quiz", "State Machine"]
+    },
+    {
       id: 95,
       title: "API Key Dashboard",
       description: "Secure masked key display with regeneration logic and premium dark UI.",
       tags: ["Security", "UX", "Animation"]
+
     }
     // Add more puzzles here as they are created
   ];
