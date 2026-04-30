@@ -32,7 +32,12 @@ export default function Home() {
       title: "API Key Dashboard",
       description: "Secure masked key display with regeneration logic and premium dark UI.",
       tags: ["Security", "UX", "Animation"]
-
+    },
+    {
+      id: 101,
+      title: "Smart Notification Control",
+      description: "Advanced preferences panel with nested state, master mute, and persistent auto-save feedback.",
+      tags: ["Nested State", "localStorage", "SaaS UI"]
     }
     // Add more puzzles here as they are created
   ];
