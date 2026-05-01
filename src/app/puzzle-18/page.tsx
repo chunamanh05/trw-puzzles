@@ -99,12 +99,16 @@ export default function ScrollVideoPage() {
 
   // 3. Typography Animation Mapping
   // Text 1: Hiện rõ lúc đầu, mờ dần khi cuộn xuống 20%
-  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.25], [0, -100]);
+  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 1, 0], { clamp: true });
+  const y1 = useTransform(scrollYProgress, [0, 0.25], [0, -100], { clamp: true });
 
   // Text 2: Hiện lên ở đoạn giữa, mờ đi ở đoạn cuối
-  const opacity2 = useTransform(scrollYProgress, [0.3, 0.45, 0.6, 0.75], [0, 1, 1, 0]);
-  const y2 = useTransform(scrollYProgress, [0.3, 0.45], [50, 0]);
+  const opacity2 = useTransform(scrollYProgress, [0.3, 0.45, 0.6, 0.75], [0, 1, 1, 0], { clamp: true });
+  const y2 = useTransform(scrollYProgress, [0.3, 0.45], [50, 0], { clamp: true });
+
+  // Canvas Animation: Bay lên trên và mờ dần ở 20% cuộn cuối cùng
+  const canvasY = useTransform(scrollYProgress, [0.8, 1], ["0%", "-50%"], { clamp: true });
+  const canvasOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0], { clamp: true });
 
   return (
     <main className="bg-black text-white selection:bg-neutral-800">
@@ -142,11 +146,16 @@ export default function ScrollVideoPage() {
             </div>
           </div>
 
-          {/* Canvas Component */}
-          <canvas 
-            ref={canvasRef}
-            className="w-full max-w-5xl object-contain z-0 opacity-80"
-          />
+          {/* Canvas Component wrapped in Framer Motion */}
+          <motion.div 
+            style={{ y: canvasY, opacity: canvasOpacity }}
+            className="absolute inset-0 w-full h-full flex items-center justify-center z-0"
+          >
+            <canvas 
+              ref={canvasRef}
+              className="w-full max-w-5xl object-contain opacity-80"
+            />
+          </motion.div>
 
           {/* Vignette Overlay (Tạo viền đen mờ bao quanh như ảnh mẫu) */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] z-10 pointer-events-none" />
@@ -193,6 +202,37 @@ export default function ScrollVideoPage() {
           </div>
         </div>
       </div>
+
+      {/* New Section below the scroll animation */}
+      <section className="relative z-30 min-h-screen bg-black text-white py-32 px-6 border-t border-white/10 flex items-center">
+        <div className="max-w-5xl mx-auto text-center w-full">
+          <h2 className="text-4xl md:text-6xl font-serif mb-16 text-white tracking-tight">
+            Beyond the <span className="text-[#d4af37] italic">Imagination</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+            <div className="p-10 rounded-3xl bg-neutral-900/50 border border-neutral-800 hover:border-[#d4af37]/50 transition-colors group">
+              <div className="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center mb-6 text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-colors">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Unparalleled Performance</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Experience speed and responsiveness like never before. Our custom-designed architecture ensures every interaction is instantaneous.
+              </p>
+            </div>
+            
+            <div className="p-10 rounded-3xl bg-neutral-900/50 border border-neutral-800 hover:border-[#d4af37]/50 transition-colors group">
+              <div className="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center mb-6 text-[#d4af37] group-hover:bg-[#d4af37] group-hover:text-black transition-colors">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Bank-grade Security</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Your data is protected by state-of-the-art encryption. We believe privacy is a fundamental human right.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
