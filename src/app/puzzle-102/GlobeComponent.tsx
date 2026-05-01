@@ -9,6 +9,7 @@ interface City {
   lng: number;
   pop: string;
   desc: string;
+  about: string;
 }
 
 interface GlobeComponentProps {
