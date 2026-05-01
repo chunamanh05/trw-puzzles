@@ -38,6 +38,12 @@ export default function Home() {
       title: "Smart Notification Control",
       description: "Advanced preferences panel with nested state, master mute, and persistent auto-save feedback.",
       tags: ["Nested State", "localStorage", "SaaS UI"]
+    },
+    {
+      id: 102,
+      title: "Earth Digital Twin",
+      description: "Interactive 3D globe with real-time camera fly-to animations and sci-fi HUD overlay.",
+      tags: ["WebGL", "Three.js", "Animation"]
     }
     // Add more puzzles here as they are created
   ];
