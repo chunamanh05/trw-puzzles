@@ -50,6 +50,12 @@ export default function Home() {
       title: "Multilingual i18n Routing",
       description: "Dynamic language switcher using scoped App Router parameters and motion transitions.",
       tags: ["i18n", "Routing", "Next.js"]
+    },
+    {
+      id: 14,
+      title: "Google Trends Explorer",
+      description: "Live search interest visualization with Recharts, Next.js API Routes, and Dark/Light mode toggle.",
+      tags: ["Recharts", "API Proxy", "Theme Toggle"]
     }
     // Add more puzzles here as they are created
   ];
