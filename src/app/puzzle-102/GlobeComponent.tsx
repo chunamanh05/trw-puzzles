@@ -44,8 +44,8 @@ export default function GlobeComponent({ cities, activeCity, onCityClick }: Glob
     globeRef.current.controls().enableZoom = true;
     
     if (activeCity) {
-      // Khi chọn thành phố: Bay sát vào (altitude thấp) và ngừng tự xoay
-      globeRef.current.pointOfView({ lat: activeCity.lat, lng: activeCity.lng, altitude: 0.6 }, 1500);
+      // Khi chọn thành phố: Bay sát vào (altitude cực thấp để zoom to hơn) và ngừng tự xoay
+      globeRef.current.pointOfView({ lat: activeCity.lat, lng: activeCity.lng, altitude: 0.2 }, 1500);
       globeRef.current.controls().autoRotate = false;
     } else {
       // Khi reset: Lùi camera ra xa (altitude cao) và tiếp tục tự xoay
@@ -55,10 +55,10 @@ export default function GlobeComponent({ cities, activeCity, onCityClick }: Glob
   }, [activeCity]);
 
   // 3. Chuẩn bị dữ liệu Marker
-  // Cần thêm thuộc tính size để thư viện biết cách render
   const htmlElementsData = cities.map(city => ({
     ...city,
-    size: 20 
+    size: 20,
+    isActive: activeCity?.name === city.name // Thêm cờ để biết thành phố nào đang được focus
   }));
 
   if (windowSize.width === 0) return null; // Đợi lấy xong kích thước màn hình
@@ -68,29 +68,53 @@ export default function GlobeComponent({ cities, activeCity, onCityClick }: Glob
       ref={globeRef}
       width={windowSize.width}
       height={windowSize.height}
-      // Dùng các texture public chất lượng cao từ unpkg
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
       bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-      // Render HTML Markers
       htmlElementsData={htmlElementsData}
       htmlElement={(d: any) => {
         const el = document.createElement('div');
-        // Sử dụng Tailwind class thẳng trong chuỗi nội dung (JIT scanner của Tailwind vẫn đọc được)
-        el.innerHTML = `
-          <div class="flex flex-col items-center cursor-pointer pointer-events-auto transform -translate-y-1/2">
-            <div class="w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_#22d3ee] animate-pulse border-2 border-white/80"></div>
-            <div class="mt-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg border border-cyan-500/30 text-white text-[11px] font-bold tracking-wider uppercase whitespace-nowrap shadow-lg">
-              ${d.name}
-            </div>
-          </div>
-        `;
-        
         el.style.pointerEvents = 'auto';
         el.onclick = () => onCityClick(d as City);
+
+        if (d.isActive) {
+          // BẢNG THÔNG TIN NỔI KHI ĐƯỢC CHỌN (POPUP TRÊN QUẢ CẦU)
+          el.innerHTML = `
+            <div class="flex flex-col items-center cursor-pointer transform -translate-y-full pb-2">
+              <div class="bg-black/80 backdrop-blur-xl border border-cyan-400 p-4 rounded-xl shadow-[0_0_30px_rgba(34,211,238,0.4)] w-48">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                  <span class="text-white font-black text-sm uppercase">${d.name}</span>
+                </div>
+                <div class="w-full h-px bg-cyan-500/30 mb-2"></div>
+                <p class="text-cyan-100 text-[10px] leading-relaxed">${d.desc}</p>
+                <div class="mt-3 flex justify-between items-center text-[9px] text-cyan-400 font-mono">
+                  <span>POP: ${d.pop}</span>
+                  <span>[LIVE]</span>
+                </div>
+              </div>
+              <!-- Đường chỉ nối xuống mặt đất -->
+              <div class="w-px h-10 bg-gradient-to-b from-cyan-400 to-transparent"></div>
+              <div class="w-4 h-4 bg-cyan-400 rounded-full shadow-[0_0_20px_#22d3ee] animate-pulse border-2 border-white"></div>
+            </div>
+          `;
+          el.style.zIndex = "10";
+        } else {
+          // GIAO DIỆN MẶC ĐỊNH (CHỈ LÀ DẤU CHẤM + TÊN)
+          el.innerHTML = `
+            <div class="flex flex-col items-center cursor-pointer transform -translate-y-1/2 opacity-70 hover:opacity-100 hover:scale-110 transition-all duration-300">
+              <div class="w-3 h-3 bg-cyan-400/80 rounded-full border border-cyan-300 shadow-[0_0_10px_#22d3ee]"></div>
+              <div class="mt-1 px-2 py-0.5 bg-black/40 backdrop-blur-sm rounded border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest whitespace-nowrap">
+                ${d.name}
+              </div>
+            </div>
+          `;
+          el.style.zIndex = "1";
+        }
+        
         return el;
       }}
-      htmlAltitude={0.02} // Khoảng cách của marker so với mặt đất (tránh bị chìm vào mesh)
+      htmlAltitude={0.01}
     />
   );
 }
