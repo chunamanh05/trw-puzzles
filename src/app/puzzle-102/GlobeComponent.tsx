@@ -14,10 +14,11 @@ interface City {
 interface GlobeComponentProps {
   cities: City[];
   activeCity: City | null;
+  zoomAltitude: number;
   onCityClick: (city: City) => void;
 }
 
-export default function GlobeComponent({ cities, activeCity, onCityClick }: GlobeComponentProps) {
+export default function GlobeComponent({ cities, activeCity, zoomAltitude, onCityClick }: GlobeComponentProps) {
   const globeRef = useRef<any>(null);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
@@ -44,15 +45,23 @@ export default function GlobeComponent({ cities, activeCity, onCityClick }: Glob
     globeRef.current.controls().enableZoom = true;
     
     if (activeCity) {
-      // Khi chọn thành phố: Bay sát vào (altitude cực thấp để zoom to hơn) và ngừng tự xoay
-      globeRef.current.pointOfView({ lat: activeCity.lat, lng: activeCity.lng, altitude: 0.2 }, 1500);
+      // Khi chọn thành phố: Bay sát vào (lấy altitude từ state của slider)
+      globeRef.current.pointOfView({ lat: activeCity.lat, lng: activeCity.lng, altitude: zoomAltitude }, 1500);
       globeRef.current.controls().autoRotate = false;
     } else {
-      // Khi reset: Lùi camera ra xa (altitude cao) và tiếp tục tự xoay
-      globeRef.current.pointOfView({ lat: 20, lng: 0, altitude: 2.5 }, 2000);
+      // Khi reset: Lùi camera ra xa
+      globeRef.current.pointOfView({ lat: 20, lng: 0, altitude: zoomAltitude }, 2000);
       globeRef.current.controls().autoRotate = true;
     }
   }, [activeCity]);
+
+  // 2.5 Dynamic Zoom (từ Slider)
+  useEffect(() => {
+    if (!globeRef.current) return;
+    const currentPov = globeRef.current.pointOfView();
+    // Giữ nguyên tọa độ hiện tại, chỉ thay đổi cao độ (altitude) với thời gian ngắn (100ms) để slider mượt
+    globeRef.current.pointOfView({ ...currentPov, altitude: zoomAltitude }, 100);
+  }, [zoomAltitude]);
 
   // 3. Chuẩn bị dữ liệu Marker
   const htmlElementsData = cities.map(city => ({

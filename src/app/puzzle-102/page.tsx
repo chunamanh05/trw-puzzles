@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Globe2, Navigation, Target, Info, Crosshair } from "lucide-react";
+import { Globe2, Navigation, Target, Info, Crosshair, Plus, Minus } from "lucide-react";
 
 /**
  * PUZZLE #102: Interactive 3D Digital Twin of Earth
@@ -41,19 +41,27 @@ interface City {
   lng: number;
   pop: string;
   desc: string;
+  about: string;
 }
 
 const CITIES: City[] = [
-  { name: "New York", lat: 40.7128, lng: -74.0060, pop: "8.4M",  desc: "Global Financial Hub" },
-  { name: "London",   lat: 51.5074, lng: -0.1278,  pop: "8.9M",  desc: "European Tech Center" },
-  { name: "Tokyo",    lat: 35.6762, lng: 139.6503, pop: "14.0M", desc: "Metropolitan Megacity" },
-  { name: "Sydney",   lat: -33.8688, lng: 151.2093,pop: "5.3M",  desc: "Oceania Gateway" },
+  { name: "New York", lat: 40.7128, lng: -74.0060, pop: "8.4M",  desc: "Global Financial Hub", about: "The most populous city in the United States, known for its iconic skyline, Wall Street, and massive cultural influence across art, fashion, and entertainment." },
+  { name: "London",   lat: 51.5074, lng: -0.1278,  pop: "8.9M",  desc: "European Tech Center", about: "The capital of England and the UK, standing on the River Thames. A major global city with a rich history featuring landmarks like the Tower of London." },
+  { name: "Tokyo",    lat: 35.6762, lng: 139.6503, pop: "14.0M", desc: "Metropolitan Megacity", about: "The bustling capital of Japan, seamlessly blending the ultramodern with traditional temples. It boasts the world's most populous metropolitan area." },
+  { name: "Sydney",   lat: -33.8688, lng: 151.2093,pop: "5.3M",  desc: "Oceania Gateway", about: "Australia's largest city, globally famous for its harbourfront Opera House, Harbour Bridge, and stunning beaches like Bondi." },
 ];
 
 // ─── MAIN UI ──────────────────────────────────────────────────────────────────
 
 export default function DigitalTwinPage() {
   const [activeCity, setActiveCity] = useState<City | null>(null);
+  const [zoomAltitude, setZoomAltitude] = useState(2.5);
+
+  const handleCityClick = (city: City | null) => {
+    setActiveCity(city);
+    // Tự động set mức zoom khi click: 0.15 là zoom cận cảnh, 2.5 là nhìn toàn cầu
+    setZoomAltitude(city ? 0.15 : 2.5);
+  };
 
   return (
     <main className="relative w-full h-screen bg-[#020202] overflow-hidden selection:bg-cyan-500/30">
@@ -63,7 +71,8 @@ export default function DigitalTwinPage() {
         <EarthGlobe 
           cities={CITIES} 
           activeCity={activeCity} 
-          onCityClick={setActiveCity} 
+          zoomAltitude={zoomAltitude}
+          onCityClick={handleCityClick} 
         />
       </div>
 
@@ -100,7 +109,7 @@ export default function DigitalTwinPage() {
             return (
               <button
                 key={city.name}
-                onClick={() => setActiveCity(city)}
+                onClick={() => handleCityClick(city)}
                 className={`p-3.5 rounded-2xl border backdrop-blur-md transition-all duration-300 flex items-center justify-center group relative
                   ${isActive 
                     ? "bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.2)]" 
@@ -120,12 +129,36 @@ export default function DigitalTwinPage() {
           {/* Nút Reset View */}
           <div className="w-full h-px bg-white/10 my-1" />
           <button
-            onClick={() => setActiveCity(null)}
+            onClick={() => handleCityClick(null)}
             className="p-3.5 rounded-2xl border border-white/10 bg-black/40 text-white/50 hover:bg-white/10 hover:text-white backdrop-blur-md transition-all flex items-center justify-center"
             title="Reset to Orbit View"
           >
             <Target size={20} />
           </button>
+        </div>
+
+        {/* Zoom Slider (Góc dưới bên phải) */}
+        <div className="absolute right-6 md:right-10 bottom-6 md:bottom-10 flex flex-col items-center gap-2 pointer-events-auto bg-black/40 backdrop-blur-md p-3 rounded-2xl border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)] z-20">
+          <button onClick={() => setZoomAltitude(Math.max(0.01, zoomAltitude - 0.2))} className="w-8 h-8 flex items-center justify-center rounded-full bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/30 transition-colors">
+            <Plus size={16} />
+          </button>
+          
+          <div className="w-8 h-32 flex items-center justify-center relative">
+            <input 
+              type="range" 
+              min="0.01" 
+              max="3.0" 
+              step="0.05"
+              value={3.01 - zoomAltitude} 
+              onChange={(e) => setZoomAltitude(3.01 - parseFloat(e.target.value))}
+              className="w-28 h-1.5 appearance-none bg-white/20 rounded-full outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:rounded-full cursor-pointer transform -rotate-90 origin-center absolute"
+            />
+          </div>
+
+          <button onClick={() => setZoomAltitude(Math.min(3.0, zoomAltitude + 0.2))} className="w-8 h-8 flex items-center justify-center rounded-full bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/30 transition-colors">
+            <Minus size={16} />
+          </button>
+          <div className="text-[10px] font-black text-cyan-400 mt-1 uppercase tracking-widest">Zoom</div>
         </div>
 
         {/* Information Panel (Góc dưới trái) */}
@@ -142,6 +175,12 @@ export default function DigitalTwinPage() {
                 </div>
               </div>
               
+              <div className="mb-6 p-4 bg-white/5 rounded-2xl border border-white/5">
+                <p className="text-sm text-cyan-50/80 leading-relaxed">
+                  {activeCity.about}
+                </p>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 p-4 rounded-2xl border border-white/5 hover:bg-white/10 transition-colors">
                   <div className="flex items-center gap-2 mb-2">
