@@ -44,6 +44,12 @@ export default function Home() {
       title: "Earth Digital Twin",
       description: "Interactive 3D globe with real-time camera fly-to animations and sci-fi HUD overlay.",
       tags: ["WebGL", "Three.js", "Animation"]
+    },
+    {
+      id: 13,
+      title: "Multilingual i18n Routing",
+      description: "Dynamic language switcher using scoped App Router parameters and motion transitions.",
+      tags: ["i18n", "Routing", "Next.js"]
     }
     // Add more puzzles here as they are created
   ];
