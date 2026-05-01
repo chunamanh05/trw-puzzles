@@ -18,7 +18,7 @@ interface GlobeComponentProps {
 }
 
 export default function GlobeComponent({ cities, activeCity, onCityClick }: GlobeComponentProps) {
-  const globeRef = useRef<any>();
+  const globeRef = useRef<any>(null);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   // 1. Responsive Canvas Size
