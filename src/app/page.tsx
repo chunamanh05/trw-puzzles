@@ -56,12 +56,6 @@ export default function Home() {
       title: "Google Trends Explorer",
       description: "Live search interest visualization with Recharts, Next.js API Routes, and Dark/Light mode toggle.",
       tags: ["Recharts", "API Proxy", "Theme Toggle"]
-    },
-    {
-      id: 18,
-      title: "Scroll Video Animation",
-      description: "Apple-style interactive scroll video using Canvas and Image Sequencing with Framer Motion.",
-      tags: ["Canvas", "Scroll", "Framer Motion"]
     }
     // Add more puzzles here as they are created
   ];
