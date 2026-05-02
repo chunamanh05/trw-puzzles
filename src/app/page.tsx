@@ -56,6 +56,12 @@ export default function Home() {
       title: "Google Trends Explorer",
       description: "Live search interest visualization with Recharts, Next.js API Routes, and Dark/Light mode toggle.",
       tags: ["Recharts", "API Proxy", "Theme Toggle"]
+    },
+    {
+      id: 18,
+      title: "Quantum Tunnel Scroll",
+      description: "Procedural 3D tunnel converted into a scroll-controlled image sequence using HTML5 Canvas.",
+      tags: ["Canvas", "Scroll", "Procedural"]
     }
     // Add more puzzles here as they are created
   ];

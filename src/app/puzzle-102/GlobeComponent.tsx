@@ -27,11 +27,11 @@ export default function GlobeComponent({ cities, activeCity, zoomAltitude, onCit
   useEffect(() => {
     // Chỉ chạy trên Client
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    
+
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -39,12 +39,12 @@ export default function GlobeComponent({ cities, activeCity, zoomAltitude, onCit
   // 2. Camera Controls & Animation
   useEffect(() => {
     if (!globeRef.current) return;
-    
+
     // Config ban đầu
     globeRef.current.controls().autoRotate = true;
     globeRef.current.controls().autoRotateSpeed = 0.5;
     globeRef.current.controls().enableZoom = true;
-    
+
     if (activeCity) {
       // Khi chọn thành phố: Bay sát vào (lấy altitude từ state của slider)
       globeRef.current.pointOfView({ lat: activeCity.lat, lng: activeCity.lng, altitude: zoomAltitude }, 1500);
@@ -121,7 +121,7 @@ export default function GlobeComponent({ cities, activeCity, zoomAltitude, onCit
           `;
           el.style.zIndex = "1";
         }
-        
+
         return el;
       }}
       htmlAltitude={0.01}
