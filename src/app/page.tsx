@@ -92,6 +92,12 @@ export default function Home() {
       title: "Dynamic Cost Slider",
       description: "Real-time infrastructure cost estimator with interactive slider and live data binding.",
       tags: ["Data Binding", "Slider", "Calculated State"]
+    },
+    {
+      id: 28,
+      title: "Vector Analyzer (PNG vs SVG)",
+      description: "Parallel comparison lab with synchronized zoom to see the quality difference between Raster and Vector.",
+      tags: ["Image Comparison", "SVG", "Synchronized Zoom"]
     }
     // Add more puzzles here as they are created
   ];
