@@ -6,10 +6,28 @@ Xây dựng một bộ máy gợi ý gói cước thông minh cho một website 
 ## Kỹ Thuật Triển Khai
 
 ### 1. Thuật Toán Gợi Ý (Scoring Logic)
-Hệ thống sử dụng thuật toán **"Ngưỡng yêu cầu tối thiểu" (Requirement Threshold)**.
-- Mỗi câu trả lời được gắn với một chỉ số `tier` (từ 0 đến 3, tương ứng với Free, Pro, Business, Enterprise).
-- Kết quả đề xuất cuối cùng được tính bằng hàm `Math.max(...answers)`.
-- Điều này đảm bảo rằng: Ngay cả khi người dùng chỉ có 1 thành viên trong team (Tier 0), nhưng lại yêu cầu bảo mật cấp độ Enterprise (Tier 3), hệ thống vẫn sẽ khuyên dùng gói Enterprise vì đó là ngưỡng bắt buộc để đáp ứng nhu cầu bảo mật của họ.
+Hệ thống sử dụng thuật toán **"Ngưỡng yêu cầu tối thiểu" (Requirement Threshold)** thay vì cách tính tổng điểm (sum) hay trung bình (average) truyền thống. Quy trình hoạt động như sau:
+
+**Bước 1: Phân bổ Tier (Tier Mapping)**
+Chúng ta có 4 gói cước được đánh số định danh (index):
+- `0` (Starter)
+- `1` (Pro)
+- `2` (Business)
+- `3` (Enterprise)
+Mỗi tùy chọn trả lời trong từng câu hỏi đều được gán một mức `tier` tối thiểu để đáp ứng yêu cầu đó. Ví dụ ở câu hỏi Quy mô team: "Chỉ mình tôi" cần tối thiểu gói `0`, trong khi "50+ người" bắt buộc phải dùng gói `3`.
+
+**Bước 2: Lưu trữ câu trả lời**
+Khi người dùng lần lượt trả lời 3 câu hỏi, hệ thống sẽ đẩy mức `tier` của các câu trả lời đó vào mảng `answers`.
+Ví dụ: Người dùng chọn:
+- Quy mô team: "2-10 người" (`tier: 1`)
+- Lượng Request: "< 10k" (`tier: 0`)
+- Tính năng: "Dedicated Support" (`tier: 3`)
+-> Mảng câu trả lời thu được là: `answers = [1, 0, 3]`
+
+**Bước 3: Thuật toán quyết định**
+Hệ thống tìm ra gói phù hợp nhất bằng hàm `Math.max(...answers)`.
+- Với mảng `[1, 0, 3]`, giá trị lớn nhất là `3`. Vậy hệ thống sẽ chốt gợi ý là gói **Enterprise (Tier 3)**.
+- **Tại sao không dùng tính tổng hay trung bình?** Nếu tính trung bình `(1+0+3)/3 = 1.3`, hệ thống có thể gợi ý nhầm sang gói Pro. Dù khách hàng có team nhỏ (Tier 1) và ít truy cập (Tier 0), nhưng vì họ ĐÒI HỎI tính năng "Dedicated Support" (chỉ có ở Tier 3), hệ thống buộc phải chọn gói cao nhất để đảm bảo không bị thiếu tính năng. Đây chính là nguyên lý cốt lõi của "Ngưỡng yêu cầu tối thiểu".
 
 ### 2. Trình Thu Thập Thông Tin Động (Animated UI Wizard)
 - **Framer Motion**: Được sử dụng để tạo hiệu ứng trượt (slide transition) mượt mà giữa các câu hỏi.
