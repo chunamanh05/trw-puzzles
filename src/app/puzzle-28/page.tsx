@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Upload, ZoomIn, Image as ImageIcon, FileCode, MousePointer2, AlertCircle, PlayCircle } from "lucide-react";
 import Link from "next/link";
 
 // High-detail SVG Logo for sampling
-const SAMPLE_SVG_DATA = `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNTAgNTBMNDI1IDM1MEg3NUwyNTAgNTBaIiBmaWxsPSIjNjM2NkYxIiBmaWxsLW9wYWNpdHk9IjAuNiIvPgo8cGF0aCBkPSJNMjUwIDEwMEwzNzUgMzAwSDEyNUwyNTAgMTAwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI1MCAxNTBMMzI1IDI1MEgxNzVMMjUwIDE1MFoiIGZpbGw9IiM2MzY2RjEiLz4KPHBhdGggZD0iTTI1MCAyMDBMMjc1IDIzMEgyMjVMMjUwIDIwMFoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik0yNTAgNTBWMzUwIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTc1IDM1MEg0MjUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=`;
+const SAMPLE_SVG_DATA = `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNTAgNTBMNDI1IDM1MEg3NUwyNTAgNTBaIiBmaWxsPSIjNjM2NkYxIiBmaWxsLW9wYWNpdHk9IjAuNiIvPgo8cGF0aCBkPSJNMjUwIDEwMEwzNzUgMzAwSDEyNUwyNTAgMTAwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI1MCAxNTBMMzI1IDI1MEgxNzVMMjUwIDE1MFoiIGZpbGw9IiM2MzY2RjEiLz4KPHBhdGggZD0iTTI1MCAyMDBMMjc1IDIzMEgyMjVMMjUwIDEwMFoiIGZpbGw9ImJsYWNrIi8+Cjwvc3ZnPg==`;
 
-// Low-res version of the same logo (simulated PNG)
-const SAMPLE_PNG_DATA = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXUlEQVR4nO2WsU4DMRBEp0iU8P8fI6EUKfK9AmX9AmU6fAAViRI+gIqE6fABVCRIlPAfqEiQKCH8ByoSpEon6SInO9ay7V0SR7Isy7IsyyL8hS6wB7Ym5K77uIof7M9Z/A92R/q4uov8D3bX9HF1F/kf7K7p4+ou8j/YXdPH1V3kf7C7po+ru8j/YHdNH1d3kf/B7po+ru4i/4PdNX1c3UX+B7tr+ri6i/wPdNf0cXUX+R/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7uH+yu6+Pqnu4f7K7r4+qe7h/sruvj6p7u70L6Afs6D869X08KAAAAAElFTkSuQmCC`;
+const SAMPLE_PNG_DATA = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACt3Ry6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEJ0lEQVR4nO3dyW7UUBiGYZMoYf9X6KIIIXIDmPV8ApU6fAAViRI+gIqE6fABVCRIlPAfqEiQKCH8ByoSpErH6SUnK6/tSIn9pIisOImSJEmeZFnE/8AauAAfJvSu+9iLH+zPWvwPdmf6uLqL/A921/RxdRf5H+yu6ePqLvI/2F3Tx9Vd5H+wu6aPq7vI/2B3TR9Xd5H/we6aPq7uIv8D3TV9XN1F/ge7a/q4uov8D3bX9HF1F/kf7K7p4+ou8j/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93T/YXdfH1T3dv9ld18fVPd0/2F3Xx9U93d+F9AP2dR6ce7+eFNAAAAAASUVORK5CYII=`;
 
 export default function PngVsSvgPage() {
   const [pngSrc, setPngSrc] = useState<string | null>(null);
@@ -51,7 +50,7 @@ export default function PngVsSvgPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white p-8 flex flex-col font-sans overflow-hidden">
+    <main className="min-h-screen bg-[#050505] text-white p-8 flex flex-col font-sans overflow-hidden">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 z-10">
@@ -59,24 +58,24 @@ export default function PngVsSvgPage() {
           <Link href="/" className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest mb-4">
             <ChevronLeft size={14} /> Hub
           </Link>
-          <h1 className="text-4xl font-black tracking-tighter">Vector <span className="text-indigo-500">Analyzer.</span></h1>
+          <h1 className="text-4xl font-black tracking-tighter italic">Vector <span className="text-blue-500">Analyzer.</span></h1>
           <p className="text-slate-500 text-sm mt-1">Compare Raster (PNG) vs Vector (SVG) quality in real-time.</p>
         </div>
 
         <div className="flex flex-wrap gap-4">
           <button 
             onClick={loadSamples}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-all text-xs font-bold shadow-lg shadow-indigo-600/20"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl transition-all text-xs font-bold shadow-lg"
           >
             <PlayCircle size={16} /> Load Samples
           </button>
-          <label className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg cursor-pointer transition-all text-xs font-bold">
-            <ImageIcon size={16} className="text-blue-400" />
+          <label className="flex items-center gap-2 px-4 py-2 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 rounded-xl cursor-pointer transition-all text-xs font-bold text-blue-400">
+            <ImageIcon size={16} />
             Upload PNG
-            <input type="file" accept="image/png" className="hidden" onChange={handlePngUpload} />
+            <input type="file" accept="image/png, image/jpeg" className="hidden" onChange={handlePngUpload} />
           </label>
-          <label className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg cursor-pointer transition-all text-xs font-bold">
-            <FileCode size={16} className="text-indigo-400" />
+          <label className="flex items-center gap-2 px-4 py-2 bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/20 rounded-xl cursor-pointer transition-all text-xs font-bold text-emerald-400">
+            <FileCode size={16} />
             Upload SVG
             <input type="file" accept="image/svg+xml" className="hidden" onChange={handleSvgUpload} />
           </label>
@@ -90,8 +89,8 @@ export default function PngVsSvgPage() {
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-20 rounded-3xl border border-dashed border-white/10">
             <div className="text-center">
               <AlertCircle size={48} className="mx-auto mb-4 text-slate-700" />
-              <h2 className="text-xl font-bold text-slate-400">Please upload files or click "Load Samples"</h2>
-              <p className="text-slate-600 text-sm max-w-xs mx-auto mt-2">Upload your own files or use our preset samples to see the resolution difference.</p>
+              <h2 className="text-xl font-bold text-slate-400">Please upload both files or click "Load Samples"</h2>
+              <p className="text-slate-600 text-sm max-w-xs mx-auto mt-2">Upload your original PNG and your converted SVG to see the resolution difference.</p>
             </div>
           </div>
         )}
@@ -104,20 +103,20 @@ export default function PngVsSvgPage() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 h-full min-h-[500px]"
         >
           {/* PNG SIDE */}
-          <div className="relative bg-[#111] rounded-3xl border border-white/5 overflow-hidden flex items-center justify-center group">
-            <div className="absolute top-6 left-6 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-10">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Raster (PNG)</span>
+          <div className="relative bg-[#111] bg-[radial-gradient(#1a1a1a_1px,transparent_1px)] bg-[size:20px_20px] rounded-[2.5rem] border border-white/5 overflow-hidden flex items-center justify-center group shadow-inner">
+            <div className="absolute top-8 left-8 flex items-center gap-3 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/10 z-10">
+              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span className="text-[11px] font-black uppercase tracking-widest text-slate-300">Raster (PNG)</span>
             </div>
             
             {pngSrc && (
-              <img src={pngSrc} alt="PNG Logo" className="max-w-[70%] max-h-[70%] object-contain" />
+              <img src={pngSrc} alt="PNG Logo" className="max-w-[80%] max-h-[80%] object-contain" />
             )}
 
             {/* SYNCED LENS */}
             {isHovering && pngSrc && (
               <div 
-                className="absolute w-48 h-48 border-2 border-blue-500 rounded-2xl pointer-events-none z-30 shadow-[0_0_50px_rgba(59,130,246,0.3)] bg-[#111] overflow-hidden"
+                className="absolute w-64 h-64 border-2 border-blue-500/50 rounded-3xl pointer-events-none z-30 shadow-[0_0_80px_rgba(59,130,246,0.2)] bg-[#050505] overflow-hidden"
                 style={{ 
                   left: `${zoomPos.x}%`, 
                   top: `${zoomPos.y}%`, 
@@ -129,31 +128,31 @@ export default function PngVsSvgPage() {
                   style={{ 
                     backgroundImage: `url(${pngSrc})`,
                     backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`,
-                    backgroundSize: '1200%', // High zoom
+                    backgroundSize: '1500%', 
                     backgroundRepeat: 'no-repeat',
                     imageRendering: 'pixelated'
                   }}
                 />
-                <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-blue-500 text-[8px] font-black uppercase text-white rounded">Pixelated</div>
+                <div className="absolute bottom-4 left-4 px-3 py-1 bg-blue-500 text-[10px] font-black uppercase text-white rounded-lg">Pixelated Edge</div>
               </div>
             )}
           </div>
 
           {/* SVG SIDE */}
-          <div className="relative bg-[#111] rounded-3xl border border-white/5 overflow-hidden flex items-center justify-center group">
-            <div className="absolute top-6 left-6 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-10">
-              <span className="w-2 h-2 rounded-full bg-indigo-500" />
-              <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Vector (SVG)</span>
+          <div className="relative bg-[#111] bg-[radial-gradient(#1a1a1a_1px,transparent_1px)] bg-[size:20px_20px] rounded-[2.5rem] border border-white/5 overflow-hidden flex items-center justify-center group shadow-inner">
+            <div className="absolute top-8 left-8 flex items-center gap-3 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-2xl border border-white/10 z-10">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-[11px] font-black uppercase tracking-widest text-slate-300">Vector (SVG)</span>
             </div>
 
             {svgSrc && (
-              <img src={svgSrc} alt="SVG Logo" className="max-w-[70%] max-h-[70%] object-contain" />
+              <img src={svgSrc} alt="SVG Logo" className="max-w-[80%] max-h-[80%] object-contain" />
             )}
 
             {/* SYNCED LENS */}
             {isHovering && svgSrc && (
               <div 
-                className="absolute w-48 h-48 border-2 border-indigo-500 rounded-2xl pointer-events-none z-30 shadow-[0_0_50px_rgba(99,102,241,0.3)] bg-[#111] overflow-hidden"
+                className="absolute w-64 h-64 border-2 border-emerald-500/50 rounded-3xl pointer-events-none z-30 shadow-[0_0_80px_rgba(16,185,129,0.2)] bg-[#050505] overflow-hidden"
                 style={{ 
                   left: `${zoomPos.x}%`, 
                   top: `${zoomPos.y}%`, 
@@ -165,29 +164,28 @@ export default function PngVsSvgPage() {
                   style={{ 
                     backgroundImage: `url(${svgSrc})`,
                     backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`,
-                    backgroundSize: '1200%', // High zoom
+                    backgroundSize: '1500%', 
                     backgroundRepeat: 'no-repeat'
                   }}
                 />
-                <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-indigo-500 text-[8px] font-black uppercase text-white rounded">Infinite Quality</div>
+                <div className="absolute bottom-4 left-4 px-3 py-1 bg-emerald-500 text-[10px] font-black uppercase text-white rounded-lg">Smooth Paths</div>
               </div>
             )}
           </div>
         </div>
 
         {/* Floating Tooltips */}
-        <div className="flex justify-between text-[10px] font-bold text-slate-600 uppercase tracking-widest mt-4">
-          <div className="flex items-center gap-2">
-            <MousePointer2 size={12} /> Sync Cursor: {zoomPos.x.toFixed(0)}%, {zoomPos.y.toFixed(0)}%
-          </div>
-          <div className="flex items-center gap-2">
-            <ZoomIn size={12} /> Current Magnification: 1200%
+        <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
+          <div className="flex items-center gap-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            <div className="flex items-center gap-2"><MousePointer2 size={14} /> Pos: {zoomPos.x.toFixed(0)}%, {zoomPos.y.toFixed(0)}%</div>
+            <div className="w-px h-4 bg-white/10" />
+            <div className="flex items-center gap-2"><ZoomIn size={14} /> Zoom: 1500%</div>
           </div>
         </div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="fixed bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-indigo-600/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="fixed bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="fixed top-[-10%] left-[-5%] w-[300px] h-[300px] bg-blue-600/5 rounded-full blur-[80px] pointer-events-none" />
     </main>
   );
