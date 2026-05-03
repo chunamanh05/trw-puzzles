@@ -80,6 +80,12 @@ export default function Home() {
       title: "Location Aware Hero",
       description: "Dynamic landing page that detects user location and adapts theme (Sun/Snow/Night) accordingly.",
       tags: ["Geolocation", "Dynamic UI", "Framer Motion"]
+    },
+    {
+      id: 24,
+      title: "Click-to-Flip Card",
+      description: "Premium 3D flipping card on Y-axis with detailed information on both sides.",
+      tags: ["3D Transform", "Click Interaction", "Framer Motion"]
     }
     // Add more puzzles here as they are created
   ];
