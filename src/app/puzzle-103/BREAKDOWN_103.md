@@ -1,27 +1,27 @@
-# Puzzle 103 Breakdown: Dynamic Pricing Recommender
+# Phân tích Puzzle 103: Dynamic Pricing Recommender (Gợi ý gói giá động)
 
-## The Objective
-Create a dynamic pricing tier recommender for a SaaS website that asks user-based questions and recommends a plan based on scoring logic.
+## Mục Tiêu
+Xây dựng một bộ máy gợi ý gói cước thông minh cho một website SaaS. Hệ thống sẽ hỏi người dùng các câu hỏi về nhu cầu sử dụng và tự động đề xuất gói giá phù hợp nhất dựa trên logic tính toán.
 
-## Technical Implementation
+## Kỹ Thuật Triển Khai
 
-### 1. Recommendation Logic (Scoring)
-The engine uses a **Requirement Threshold** algorithm. 
-- Each answer to each question is associated with a `tier` index (0 to 3).
-- The final recommendation is calculated using `Math.max(...answers)`. 
-- This ensures that if a user needs Enterprise-level security (tier 3) but only has a team of 1 (tier 0), they are still recommended the Enterprise plan because their security requirements exceed the lower tiers.
+### 1. Thuật Toán Gợi Ý (Scoring Logic)
+Hệ thống sử dụng thuật toán **"Ngưỡng yêu cầu tối thiểu" (Requirement Threshold)**.
+- Mỗi câu trả lời được gắn với một chỉ số `tier` (từ 0 đến 3, tương ứng với Free, Pro, Business, Enterprise).
+- Kết quả đề xuất cuối cùng được tính bằng hàm `Math.max(...answers)`.
+- Điều này đảm bảo rằng: Ngay cả khi người dùng chỉ có 1 thành viên trong team (Tier 0), nhưng lại yêu cầu bảo mật cấp độ Enterprise (Tier 3), hệ thống vẫn sẽ khuyên dùng gói Enterprise vì đó là ngưỡng bắt buộc để đáp ứng nhu cầu bảo mật của họ.
 
-### 2. Animated UI Wizard
-- **Framer Motion**: Used for slide transitions between questions.
-- **Directional Animation**: The `direction` state tracks if the user is moving forward or backward, allowing the animation to slide from the correct side.
-- **State Management**: Local state handles the current step, the array of selected answers, and the animation direction.
+### 2. Trình Thu Thập Thông Tin Động (Animated UI Wizard)
+- **Framer Motion**: Được sử dụng để tạo hiệu ứng trượt (slide transition) mượt mà giữa các câu hỏi.
+- **Hiệu Ứng Theo Hướng (Directional Animation)**: State `direction` theo dõi việc người dùng đang đi tiếp hay quay lại, giúp các slide bay vào từ đúng hướng trái/phải một cách tự nhiên.
+- **Quản lý State**: React Hook quản lý song song bước hiện tại (step), mảng câu trả lời đã chọn, và hướng của animation.
 
-### 3. Dynamic UI Components
-- **Progress Bar**: Animates linearly as the user progresses through questions.
-- **Breakdown Section**: Maps the user's selected answers back to the "Reasoning" string defined in the data constants, providing a clear "Why this match?" section.
-- **Contextual CTA**: The button text and styling change dynamically based on the resulting plan (e.g., "Contact Sales" for Enterprise vs "Start Pro Trial" for Pro).
+### 3. Giao Diện Thay Đổi Linh Hoạt
+- **Thanh Tiến Trình (Progress Bar)**: Chạy mượt mà tỉ lệ thuận với số lượng câu hỏi đã hoàn thành.
+- **Khung Phân Tích (Breakdown Section)**: Hệ thống ánh xạ lại (map) câu trả lời của người dùng với các mô tả "Lý do" (Reasoning) đã được cài đặt sẵn. Tạo ra một bảng "Why this match?" (Tại sao lại chọn gói này?) cực kỳ thuyết phục.
+- **Nút CTA Tùy Biến**: Nội dung và màu sắc của nút Call-to-Action thay đổi tương thích với gói được chọn (Ví dụ: "Contact Sales" cho gói Enterprise so với "Start Pro Trial" cho gói Pro).
 
-## Key Features
-- **Auto-Advance**: Questions automatically advance after a short delay (300ms) once an option is selected, improving UX speed.
-- **Full Responsiveness**: Designed to work on mobile and desktop using Tailwind's flexible grid and padding system.
-- **Dark Luxury Aesthetic**: Uses a deep slate/blue palette with subtle borders and glows to maintain the TRW project brand.
+## Các Tính Năng Nổi Bật (Key Features)
+- **Auto-Advance**: Câu hỏi tự động chuyển sang trang tiếp theo sau 300ms kể từ khi người dùng bấm chọn, giúp tăng tốc độ trải nghiệm (UX).
+- **Responsive 100%**: Thiết kế tương thích hoàn toàn trên cả Mobile và Desktop nhờ hệ thống grid và padding linh hoạt của Tailwind.
+- **Phong cách Dark Luxury**: Ứng dụng bảng màu Deep Slate & Blue tối màu, kết hợp với các hiệu ứng border và glow mờ ảo để duy trì đúng định hướng thương hiệu của dự án TRW Puzzles.
