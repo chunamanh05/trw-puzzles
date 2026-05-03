@@ -74,6 +74,12 @@ export default function Home() {
       title: "Vapi Voice AI Agent",
       description: "Live voice assistant connection using Vapi web SDK with volume-reactive UI orb.",
       tags: ["Voice AI", "Vapi", "Audio Visualizer"]
+    },
+    {
+      id: 23,
+      title: "Location Aware Hero",
+      description: "Dynamic landing page that detects user location and adapts theme (Sun/Snow/Night) accordingly.",
+      tags: ["Geolocation", "Dynamic UI", "Framer Motion"]
     }
     // Add more puzzles here as they are created
   ];
