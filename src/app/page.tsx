@@ -98,6 +98,12 @@ export default function Home() {
       title: "Vector Analyzer (PNG vs SVG)",
       description: "Parallel comparison lab with synchronized zoom to see the quality difference between Raster and Vector.",
       tags: ["Image Comparison", "SVG", "Synchronized Zoom"]
+    },
+    {
+      id: 30,
+      title: "Cinematic Page Load",
+      description: "Eliminate blank screens with a staggered loading sequence and highly reactive hover states.",
+      tags: ["Framer Motion", "Pre-loader", "Reactive UI"]
     }
     // Add more puzzles here as they are created
   ];
