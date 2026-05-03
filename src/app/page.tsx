@@ -62,12 +62,20 @@ export default function Home() {
       title: "Quantum Tunnel Scroll",
       description: "Procedural 3D tunnel converted into a scroll-controlled image sequence using HTML5 Canvas.",
       tags: ["Canvas", "Scroll", "Procedural"]
+    },
+    {
+      id: 103,
+      title: "SaaS Pricing Matcher",
+      description: "Intelligent pricing tier recommender with usage-based logic and animated wizard UX.",
+      tags: ["Logic", "Wizard", "Framer Motion"]
     }
     // Add more puzzles here as they are created
   ];
 
 
 
+
+  const sortedPuzzles = [...puzzles].sort((a, b) => a.id - b.id);
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-accent-primary selection:text-background">
@@ -92,14 +100,14 @@ export default function Home() {
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {puzzles.map((p) => (
+            {sortedPuzzles.map((p) => (
               <Link 
                 key={p.id} 
                 href={`/puzzle-${p.id}`}
                 className="group relative block p-8 rounded-luxury glass hover:bg-glass-bg transition-all duration-500 luxury-shadow"
               >
                 <div className="flex justify-between items-start mb-6">
-                  <span className="text-4xl font-mono font-bold text-glass-border group-hover:text-accent-primary transition-colors">
+                  <span className="text-4xl font-mono font-bold text-accent-primary drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]">
                     #{p.id}
                   </span>
                   <div className="p-2 rounded-full border border-glass-border group-hover:border-accent-primary group-hover:text-accent-primary transition-all">
