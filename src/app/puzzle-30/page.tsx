@@ -144,15 +144,7 @@ export default function AnimatedLoadPage() {
                 </motion.div>
               )}
 
-              {/* Dev Toggle for Error (Hidden in prod, just for puzzle demo) */}
-              {progress < 50 && (
-                 <button 
-                   onClick={() => setHasError(true)}
-                   className="absolute bottom-10 text-[10px] text-slate-600 hover:text-slate-400 font-mono underline"
-                 >
-                   [Dev] Simulate Load Error
-                 </button>
-              )}
+
             </motion.div>
           </motion.div>
         )}
