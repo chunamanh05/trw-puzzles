@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Thermometer, Cloud, Sun, Snowflake, Moon, ChevronRight, Navigation, CloudRain, Wind } from "lucide-react";
 import Link from "next/link";
@@ -22,7 +22,7 @@ type ThemeConfig = {
 const THEMES: Record<string, ThemeConfig> = {
   sunny: {
     name: "Golden Hour",
-    bgClass: "bg-[radial-gradient(circle_at_70%_-20%,#f59e0b,rgba(251,191,36,0)_45%),radial-gradient(circle_at_center,#fffbeb,#fef3c7)]",
+    bgClass: "bg-[#fffbeb] bg-[radial-gradient(circle_at_80%_0%,#fef3c7,#fffbeb)]",
     textColor: "text-amber-950",
     accentColor: "bg-amber-600",
     title: "Pure Solar Energy",
@@ -33,7 +33,7 @@ const THEMES: Record<string, ThemeConfig> = {
   },
   cloudy: {
     name: "Steady Overcast",
-    bgClass: "bg-[radial-gradient(circle_at_center,#334155,#0f172a)]",
+    bgClass: "bg-[#0f172a] bg-[radial-gradient(circle_at_center,#1e293b,#0f172a)]",
     textColor: "text-slate-100",
     accentColor: "bg-blue-500",
     title: "Steady as the Clouds",
@@ -44,7 +44,7 @@ const THEMES: Record<string, ThemeConfig> = {
   },
   rainy: {
     name: "Rainy Day Rhythm",
-    bgClass: "bg-[radial-gradient(circle_at_top,#0f172a,#020617)]",
+    bgClass: "bg-[#020617] bg-[radial-gradient(circle_at_top,#0f172a,#020617)]",
     textColor: "text-blue-100",
     accentColor: "bg-blue-500",
     title: "Liquid Creativity",
@@ -55,7 +55,7 @@ const THEMES: Record<string, ThemeConfig> = {
   },
   snowy: {
     name: "Snow Day Silence",
-    bgClass: "bg-[radial-gradient(circle_at_top,#f1f5f9,#94a3b8)]",
+    bgClass: "bg-[#f1f5f9] bg-[radial-gradient(circle_at_top,#f1f5f9,#94a3b8)]",
     textColor: "text-slate-900",
     accentColor: "bg-sky-500",
     title: "Snow Day Productivity",
@@ -81,6 +81,19 @@ export default function LocationAwareHero() {
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [themeKey, setThemeKey] = useState<string>("default");
+
+  // Generate stable random cloud configurations to prevent re-shuffling on every render
+  const cloudConfigs = useMemo(() => {
+    return [...Array(10)].map((_, i) => ({
+      id: i,
+      delay: Math.random() * -60, // Random starting position in cycle
+      duration: 30 + Math.random() * 40, // Random speed
+      top: (Math.random() * 80) + "%", // Random vertical position
+      scale: 0.5 + Math.random() * 1.5, // Random size
+      opacity: 0.2 + Math.random() * 0.4, // Random opacity
+      direction: Math.random() > 0.5 ? 1 : -1, // Random direction (L-to-R or R-to-L)
+    }));
+  }, []);
 
   useEffect(() => {
     async function fetchWeather() {
@@ -118,40 +131,60 @@ export default function LocationAwareHero() {
       
       {/* ATMOSPHERIC BACKGROUND LAYERS */}
       <AnimatePresence>
-        {/* SUNBEAMS for Sunny */}
+        {/* SHARP SUN for Sunny */}
         {themeKey === 'sunny' && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-0 pointer-events-none"
           >
-            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.5),transparent_60%)] blur-[150px]" />
+            <div className="absolute top-20 right-20 w-40 h-40 bg-amber-400 rounded-full shadow-[0_0_100px_#fbbf24] z-10" />
+            <div className="absolute top-20 right-20 w-40 h-40 bg-white rounded-full blur-[2px] z-20" />
+            
             <motion.div 
               animate={{ rotate: 360 }}
-              transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] opacity-[0.05]"
-              style={{ backgroundImage: 'repeating-conic-gradient(from 0deg, transparent 0deg, transparent 15deg, #fbbf24 16deg, #fbbf24 17deg)' }}
+              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              className="absolute top-40 right-40 w-[1000px] h-[1000px] -translate-y-1/2 translate-x-1/2 opacity-[0.15]"
+              style={{ backgroundImage: 'repeating-conic-gradient(from 0deg, #f59e0b 0deg, #f59e0b 2deg, transparent 3deg, transparent 15deg)' }}
             />
+            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.4),transparent_60%)]" />
           </motion.div>
         )}
 
-        {/* THICK CLOUDS for Cloudy */}
+        {/* RANDOMIZED CLOUDS for Cloudy */}
         {themeKey === 'cloudy' && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-0 pointer-events-none"
           >
-            {[...Array(12)].map((_, i) => (
+            {cloudConfigs.map((cloud) => (
               <motion.div
-                key={i}
-                initial={{ left: "-50%", top: (i * 10) + "%" }}
-                animate={{ left: "150%" }}
-                transition={{ duration: 30 + i * 10, repeat: Infinity, ease: "linear", delay: i * -5 }}
-                className="absolute opacity-[0.2] mix-blend-overlay"
-                style={{ width: "800px", height: "400px" }}
+                key={cloud.id}
+                initial={{ 
+                  left: cloud.direction === 1 ? "-60%" : "120%", 
+                  top: cloud.top,
+                  scale: cloud.scale,
+                  opacity: cloud.opacity 
+                }}
+                animate={{ 
+                  left: cloud.direction === 1 ? "120%" : "-60%" 
+                }}
+                transition={{ 
+                  duration: cloud.duration, 
+                  repeat: Infinity, 
+                  ease: "linear", 
+                  delay: cloud.delay 
+                }}
+                className="absolute flex flex-col items-center"
+                style={{ width: "600px" }}
               >
-                <div className="w-full h-full bg-slate-100 rounded-full blur-[120px]" />
+                <div className="relative">
+                  <div className="w-[400px] h-[120px] bg-slate-300 rounded-full shadow-lg" />
+                  <div className="absolute -top-16 left-20 w-[180px] h-[180px] bg-slate-300 rounded-full" />
+                  <div className="absolute -top-12 right-24 w-[140px] h-[140px] bg-slate-300 rounded-full" />
+                </div>
               </motion.div>
             ))}
+            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]" />
           </motion.div>
         )}
 
@@ -162,13 +195,12 @@ export default function LocationAwareHero() {
             className="absolute inset-0 z-0 pointer-events-none"
           >
             <div className="absolute inset-0 bg-black/40" />
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-black/20" />
             {[...Array(150)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ top: "-200px" }}
                 animate={{ top: "120vh" }}
-                transition={{ duration: 0.4 + Math.random() * 0.3, repeat: Infinity, ease: "linear", delay: Math.random() * 3 }}
+                transition={{ duration: 0.3 + Math.random() * 0.3, repeat: Infinity, ease: "linear", delay: Math.random() * 3 }}
                 className="absolute w-[2px] h-[150px] bg-gradient-to-b from-transparent via-blue-300/60 to-transparent"
                 style={{ left: (Math.random() * 100) + "%" }}
               />
@@ -196,7 +228,7 @@ export default function LocationAwareHero() {
                   rotate: 360
                 }}
                 transition={{ duration: 8 + Math.random() * 15, repeat: Infinity, delay: Math.random() * 15 }}
-                className="absolute w-3 h-3 bg-white rounded-full blur-[0.5px] shadow-[0_0_20px_rgba(255,255,255,0.9)]"
+                className="absolute w-3 h-3 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.9)]"
                 style={{ left: (Math.random() * 100) + "%" }}
               />
             ))}
