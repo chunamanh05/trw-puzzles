@@ -86,6 +86,12 @@ export default function Home() {
       title: "Click-to-Flip Card",
       description: "Premium 3D flipping card on Y-axis with detailed information on both sides.",
       tags: ["3D Transform", "Click Interaction", "Framer Motion"]
+    },
+    {
+      id: 27,
+      title: "Dynamic Cost Slider",
+      description: "Real-time infrastructure cost estimator with interactive slider and live data binding.",
+      tags: ["Data Binding", "Slider", "Calculated State"]
     }
     // Add more puzzles here as they are created
   ];
