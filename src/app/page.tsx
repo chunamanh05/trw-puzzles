@@ -68,6 +68,12 @@ export default function Home() {
       title: "SaaS Pricing Matcher",
       description: "Intelligent pricing tier recommender with usage-based logic and animated wizard UX.",
       tags: ["Logic", "Wizard", "Framer Motion"]
+    },
+    {
+      id: 22,
+      title: "Vapi Voice AI Agent",
+      description: "Live voice assistant connection using Vapi web SDK with volume-reactive UI orb.",
+      tags: ["Voice AI", "Vapi", "Audio Visualizer"]
     }
     // Add more puzzles here as they are created
   ];
