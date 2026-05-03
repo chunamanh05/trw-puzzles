@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Thermometer, Cloud, Sun, Snowflake, Moon, ChevronRight, Navigation, CloudRain, CloudFog, Wind, Droplets } from "lucide-react";
+import { MapPin, Thermometer, Cloud, Sun, Snowflake, Moon, ChevronRight, Navigation, CloudRain, Wind } from "lucide-react";
 import Link from "next/link";
 
 const API_KEY = "d213abf148564bdc9d3104117260305";
@@ -124,11 +124,11 @@ export default function LocationAwareHero() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-0 pointer-events-none"
           >
-            <div className="absolute top-0 right-0 w-[90%] h-[90%] bg-[radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.5),transparent_60%)] blur-[150px]" />
+            <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_0%,rgba(251,191,36,0.5),transparent_60%)] blur-[150px]" />
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-[50%] -right-[50%] w-[200%] h-[200%] opacity-[0.05]"
+              className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] opacity-[0.05]"
               style={{ backgroundImage: 'repeating-conic-gradient(from 0deg, transparent 0deg, transparent 15deg, #fbbf24 16deg, #fbbf24 17deg)' }}
             />
           </motion.div>
@@ -140,15 +140,16 @@ export default function LocationAwareHero() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-0 pointer-events-none"
           >
-            {[...Array(8)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ x: -800, y: Math.random() * 800 }}
-                animate={{ x: 2000 }}
-                transition={{ duration: 25 + i * 15, repeat: Infinity, ease: "linear" }}
-                className="absolute opacity-[0.25] mix-blend-overlay"
+                initial={{ left: "-50%", top: (i * 10) + "%" }}
+                animate={{ left: "150%" }}
+                transition={{ duration: 30 + i * 10, repeat: Infinity, ease: "linear", delay: i * -5 }}
+                className="absolute opacity-[0.2] mix-blend-overlay"
+                style={{ width: "800px", height: "400px" }}
               >
-                <div className="w-[1000px] h-[400px] bg-slate-100 rounded-full blur-[120px]" />
+                <div className="w-full h-full bg-slate-100 rounded-full blur-[120px]" />
               </motion.div>
             ))}
           </motion.div>
@@ -162,17 +163,17 @@ export default function LocationAwareHero() {
           >
             <div className="absolute inset-0 bg-black/40" />
             <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-black/20" />
-            {[...Array(120)].map((_, i) => (
+            {[...Array(150)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ y: -300, x: Math.random() * 100 + "%" }}
-                animate={{ y: 1500 }}
-                transition={{ duration: 0.3 + Math.random() * 0.3, repeat: Infinity, ease: "linear", delay: Math.random() * 2 }}
-                className="absolute w-[2px] h-[150px] bg-gradient-to-b from-transparent via-blue-300/40 to-transparent"
+                initial={{ top: "-200px" }}
+                animate={{ top: "120vh" }}
+                transition={{ duration: 0.4 + Math.random() * 0.3, repeat: Infinity, ease: "linear", delay: Math.random() * 3 }}
+                className="absolute w-[2px] h-[150px] bg-gradient-to-b from-transparent via-blue-300/60 to-transparent"
+                style={{ left: (Math.random() * 100) + "%" }}
               />
             ))}
-            {/* Splash effect mockup */}
-            <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl" />
+            <div className="absolute bottom-0 w-full h-64 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl" />
           </motion.div>
         )}
 
@@ -182,32 +183,31 @@ export default function LocationAwareHero() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-0 pointer-events-none"
           >
-            <div className="absolute inset-0 bg-white/10" />
-            <div className="absolute bottom-0 w-full h-[30%] bg-gradient-to-t from-white/60 to-transparent blur-2xl" />
-            {[...Array(150)].map((_, i) => (
+            <div className="absolute inset-0 bg-white/5" />
+            <div className="absolute bottom-0 w-full h-[40%] bg-gradient-to-t from-white/60 to-transparent blur-3xl" />
+            {[...Array(180)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ y: -50, x: Math.random() * 100 + "%", opacity: 0, scale: 0.5 + Math.random() }}
+                initial={{ top: "-50px", opacity: 0, scale: 0.5 + Math.random() }}
                 animate={{ 
-                  y: 1200, 
-                  x: (Math.random() * 100) + (Math.random() * 10 - 5) + "%", 
+                  top: "110vh", 
+                  left: (Math.random() * 100 + (Math.random() * 10 - 5)) + "%", 
                   opacity: [0, 1, 1, 0],
                   rotate: 360
                 }}
-                transition={{ duration: 6 + Math.random() * 12, repeat: Infinity, delay: Math.random() * 10 }}
-                className="absolute w-3 h-3 bg-white rounded-full blur-[0.8px] shadow-[0_0_20px_rgba(255,255,255,0.8)]"
+                transition={{ duration: 8 + Math.random() * 15, repeat: Infinity, delay: Math.random() * 15 }}
+                className="absolute w-3 h-3 bg-white rounded-full blur-[0.5px] shadow-[0_0_20px_rgba(255,255,255,0.9)]"
+                style={{ left: (Math.random() * 100) + "%" }}
               />
             ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className={`fixed inset-0 pointer-events-none z-0`} />
-
       {/* Navigation */}
       <nav className="relative z-20 w-full px-12 py-10 flex justify-between items-center">
         <div className="flex items-center gap-3 font-black text-2xl tracking-tighter italic">
-          <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white">V</div>
+          <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white font-sans not-italic">V</div>
           Velocity
         </div>
         <div className="hidden lg:flex items-center gap-10 text-sm font-bold uppercase tracking-widest opacity-60">
@@ -233,35 +233,35 @@ export default function LocationAwareHero() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-            className="max-w-5xl"
+            className="max-w-6xl"
           >
             {/* Condition Badge */}
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/5 border border-black/10 backdrop-blur-md mb-12">
-              <theme.icon size={20} className="animate-pulse" />
-              <span className="text-[11px] font-black uppercase tracking-[0.5em] opacity-80">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-black/5 border border-black/10 backdrop-blur-xl mb-14">
+              <theme.icon size={22} className="animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-[0.6em] opacity-80">
                 {weather?.current?.condition?.text || "Synchronizing Environment"}
               </span>
             </div>
 
-            <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] mb-12 drop-shadow-sm">
+            <h1 className="text-7xl md:text-[11rem] font-black tracking-tighter leading-[0.75] mb-14 drop-shadow-xl">
               {theme.title}
             </h1>
 
-            <p className="text-xl md:text-3xl font-medium opacity-70 max-w-2xl mx-auto mb-16 leading-tight">
+            <p className="text-xl md:text-4xl font-medium opacity-80 max-w-3xl mx-auto mb-20 leading-tight">
               {theme.subtitle}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-              <button className={`px-12 py-6 rounded-2xl font-black text-2xl transition-all hover:scale-105 active:scale-95 shadow-2xl ${theme.buttonClass}`}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+              <button className={`px-14 py-7 rounded-[2rem] font-black text-3xl transition-all hover:scale-110 active:scale-95 shadow-[0_20px_50px_rgba(0,0,0,0.15)] ${theme.buttonClass}`}>
                 {theme.cta}
               </button>
-              <button className="px-12 py-6 rounded-2xl border border-black/20 font-black text-2xl hover:bg-black/5 flex items-center gap-4">
-                <Navigation size={24} /> Watch Demo
+              <button className="px-14 py-7 rounded-[2rem] border-2 border-black/10 font-black text-3xl hover:bg-black/5 flex items-center gap-5 transition-all">
+                <Navigation size={28} /> Watch Demo
               </button>
             </div>
 
             {/* Client List */}
-            <div className="mt-28 pt-12 border-t border-black/10 flex flex-wrap justify-center gap-16 opacity-40 grayscale font-black tracking-tighter text-xl">
+            <div className="mt-32 pt-16 border-t border-black/10 flex flex-wrap justify-center gap-20 opacity-50 grayscale font-black tracking-tighter text-2xl">
               {["Acme Corp", "Globex", "Initech", "Hooli", "Pied Piper"].map(client => (
                 <span key={client}>{client}</span>
               ))}
@@ -271,59 +271,59 @@ export default function LocationAwareHero() {
       </div>
 
       {/* LOCATION DASHBOARD */}
-      <div className="relative z-20 w-full p-12 flex justify-center">
-        <div className="bg-black/10 border border-black/10 backdrop-blur-2xl rounded-[2.5rem] px-12 py-6 flex items-center gap-16 shadow-2xl border-white/10 overflow-hidden">
-          <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-black/20 rounded-2xl flex items-center justify-center border border-white/5">
-              <MapPin size={28} className="text-red-500" />
+      <div className="relative z-20 w-full p-16 flex justify-center">
+        <div className="bg-white/10 dark:bg-black/20 border border-white/20 backdrop-blur-3xl rounded-[3rem] px-16 py-8 flex items-center gap-20 shadow-[0_50px_100px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-black/10 rounded-[1.5rem] flex items-center justify-center border border-white/10">
+              <MapPin size={32} className="text-red-500" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] font-black uppercase tracking-widest opacity-50 mb-1">Current Location</span>
-              <span className="text-xl font-black">{loading ? "Detecting..." : `${weather?.location?.name}, ${weather?.location?.country}`}</span>
+            <div className="flex flex-col text-left">
+              <span className="text-[12px] font-black uppercase tracking-widest opacity-50 mb-1">Current Location</span>
+              <span className="text-2xl font-black tracking-tight">{loading ? "Detecting..." : `${weather?.location?.name}, ${weather?.location?.country}`}</span>
             </div>
           </div>
           
-          <div className="w-px h-12 bg-black/20" />
+          <div className="w-px h-16 bg-white/10" />
 
-          <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-black/20 rounded-2xl flex items-center justify-center border border-white/5">
-              <Thermometer size={28} className="text-orange-500" />
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-black/10 rounded-[1.5rem] flex items-center justify-center border border-white/10">
+              <Thermometer size={32} className="text-orange-500" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] font-black uppercase tracking-widest opacity-50 mb-1">Temperature</span>
-              <span className="text-xl font-black">{weather?.current?.temp_c}°C</span>
+            <div className="flex flex-col text-left">
+              <span className="text-[12px] font-black uppercase tracking-widest opacity-50 mb-1">Temperature</span>
+              <span className="text-2xl font-black tracking-tight">{weather?.current?.temp_c}°C</span>
             </div>
           </div>
 
-          <div className="w-px h-12 bg-black/20" />
+          <div className="w-px h-16 bg-white/10" />
 
-          <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-black/20 rounded-2xl flex items-center justify-center border border-white/5">
-              <Wind size={28} className="text-blue-500" />
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-black/10 rounded-[1.5rem] flex items-center justify-center border border-white/10">
+              <Wind size={32} className="text-blue-500" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] font-black uppercase tracking-widest opacity-50 mb-1">Condition</span>
-              <span className="text-xl font-black">{weather?.current?.condition?.text}</span>
+            <div className="flex flex-col text-left">
+              <span className="text-[12px] font-black uppercase tracking-widest opacity-50 mb-1">Conditions</span>
+              <span className="text-2xl font-black tracking-tight">{weather?.current?.condition?.text}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* SIMULATOR */}
-      <div className="fixed bottom-12 right-12 z-50 flex flex-col gap-4">
-        <span className="text-[10px] font-black text-center bg-black text-white px-3 py-1.5 rounded-lg shadow-xl">SIMULATOR</span>
+      <div className="fixed bottom-16 right-16 z-50 flex flex-col gap-5">
+        <span className="text-[12px] font-black text-center bg-black text-white px-4 py-2 rounded-xl shadow-2xl tracking-widest">SIMULATOR</span>
         {[
           { key: "sunny", icon: Sun, color: "bg-amber-500" },
           { key: "cloudy", icon: Cloud, color: "bg-slate-900" },
           { key: "rainy", icon: CloudRain, color: "bg-blue-600" },
-          { key: "snowy", icon: Snowflake, color: "bg-white text-black border-2 border-slate-200" }
+          { key: "snowy", icon: Snowflake, color: "bg-white text-black border-4 border-slate-200" }
         ].map(btn => (
           <button 
             key={btn.key}
             onClick={() => setThemeKey(btn.key)}
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-90 ${btn.color} ${btn.key === themeKey ? 'ring-4 ring-black/20 scale-110' : ''}`}
+            className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center shadow-2xl transition-all hover:scale-125 active:scale-90 ${btn.color} ${btn.key === themeKey ? 'ring-4 ring-black/30 scale-110 shadow-indigo-500/20' : ''}`}
           >
-            <btn.icon size={24} />
+            <btn.icon size={28} />
           </button>
         ))}
       </div>
