@@ -1,309 +1,274 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Calendar, Clock, CheckCircle2, Zap, AlertCircle } from "lucide-react";
+import { ChevronLeft, Calendar, Clock, CheckCircle2, Sparkles, Layers, ArrowRight, Timer } from "lucide-react";
 import Link from "next/link";
 
 // --- Types ---
 type SlotStatus = 'available' | 'booked';
+interface TimeSlot { time: string; status: SlotStatus; }
+interface DayAvailability { id: string; date: number; dayName: string; fullName: string; slots: TimeSlot[]; }
 
-interface TimeSlot {
-  time: string;
-  status: SlotStatus;
-}
-
-interface DayAvailability {
-  id: string;
-  date: number;
-  dayName: string;
-  slots: TimeSlot[];
-}
-
-// --- Mock Data ---
+// --- Extended Mock Data ---
 const MOCK_DAYS: DayAvailability[] = [
   {
-    id: "day-1",
-    date: 5,
-    dayName: "TUE",
+    id: "day-1", date: 5, dayName: "TUE", fullName: "Thứ Ba",
     slots: [
-      { time: "9:00 AM", status: "booked" },
-      { time: "10:00 AM", status: "available" },
-      { time: "11:00 AM", status: "available" },
-      { time: "12:00 PM", status: "available" },
-      { time: "1:00 PM", status: "booked" },
-      { time: "2:00 PM", status: "available" },
-      { time: "3:00 PM", status: "available" },
-      { time: "4:00 PM", status: "available" },
+      { time: "08:30", status: "booked" }, { time: "09:30", status: "available" },
+      { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
+      { time: "13:30", status: "booked" }, { time: "14:30", status: "available" },
+      { time: "15:30", status: "available" }, { time: "16:30", status: "available" },
     ]
   },
   {
-    id: "day-2",
-    date: 6,
-    dayName: "WED",
+    id: "day-2", date: 6, dayName: "WED", fullName: "Thứ Tư",
     slots: [
-      { time: "9:00 AM", status: "available" },
-      { time: "10:00 AM", status: "available" },
-      { time: "11:00 AM", status: "available" },
-      { time: "12:00 PM", status: "booked" },
-      { time: "1:00 PM", status: "available" },
-      { time: "2:00 PM", status: "booked" },
-      { time: "3:00 PM", status: "available" },
-      { time: "4:00 PM", status: "available" },
+      { time: "08:30", status: "available" }, { time: "09:30", status: "available" },
+      { time: "10:30", status: "available" }, { time: "11:30", status: "booked" },
+      { time: "13:30", status: "available" }, { time: "14:30", status: "booked" },
+      { time: "15:30", status: "available" }, { time: "16:30", status: "available" },
     ]
   },
   {
-    id: "day-3",
-    date: 7,
-    dayName: "THU",
+    id: "day-3", date: 7, dayName: "THU", fullName: "Thứ Năm",
     slots: [
-      { time: "9:00 AM", status: "booked" },
-      { time: "10:00 AM", status: "booked" },
-      { time: "11:00 AM", status: "available" },
-      { time: "12:00 PM", status: "available" },
-      { time: "1:00 PM", status: "booked" },
-      { time: "2:00 PM", status: "available" },
-      { time: "3:00 PM", status: "available" },
-      { time: "4:00 PM", status: "booked" },
+      { time: "08:30", status: "booked" }, { time: "09:30", status: "booked" },
+      { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
+      { time: "13:30", status: "booked" }, { time: "14:30", status: "available" },
+      { time: "15:30", status: "available" }, { time: "16:30", status: "booked" },
     ]
   },
   {
-    id: "day-4",
-    date: 8,
-    dayName: "FRI",
+    id: "day-4", date: 8, dayName: "FRI", fullName: "Thứ Sáu",
     slots: [
-      { time: "9:00 AM", status: "available" },
-      { time: "10:00 AM", status: "available" },
-      { time: "11:00 AM", status: "available" },
-      { time: "12:00 PM", status: "available" },
-      { time: "1:00 PM", status: "available" },
-      { time: "2:00 PM", status: "available" },
-      { time: "3:00 PM", status: "available" },
-      { time: "4:00 PM", status: "available" },
+      { time: "08:30", status: "available" }, { time: "09:30", status: "available" },
+      { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
+      { time: "13:30", status: "available" }, { time: "14:30", status: "available" },
+      { time: "15:30", status: "available" }, { time: "16:30", status: "available" },
     ]
   }
 ];
 
-export default function BookingSlotPage() {
-  const [selectedDayId, setSelectedDayId] = useState(MOCK_DAYS[1].id);
-  const [selectedTime, setSelectedTime] = useState<string | null>("10:00 AM");
-  const [isBooked, setIsBooked] = useState(false);
+export default function GlassBookingPage() {
+  const [selectedDayId, setSelectedDayId] = useState(MOCK_DAYS[0].id);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [step, setStep] = useState(1); 
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  const activeDay = useMemo(() => 
-    MOCK_DAYS.find(d => d.id === selectedDayId)!, 
-  [selectedDayId]);
+  // Live Clock Effect
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  const handleDayChange = (id: string) => {
-    setSelectedDayId(id);
-    setSelectedTime(null); // Reset time when changing day
-  };
+  const activeDay = useMemo(() => MOCK_DAYS.find(d => d.id === selectedDayId)!, [selectedDayId]);
 
-  const handleBooking = () => {
-    if (!selectedTime) return;
-    setIsBooked(true);
-    // In real app, send to server
-  };
+  const timeString = currentTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
   return (
-    <main className="min-h-screen bg-[#05070a] text-white flex flex-col items-center justify-center p-6 font-sans relative overflow-hidden">
+    <main className="min-h-screen bg-[#030014] text-white flex flex-col font-sans relative overflow-hidden">
       
-      {/* Abstract Background Grid */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" 
-        style={{ backgroundImage: 'radial-gradient(#1e293b 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
-      />
-
-      {/* Nav */}
-      <Link href="/" className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest z-10">
-        <ChevronLeft size={14} /> Back to Hub
-      </Link>
-
-      {/* Header */}
-      <div className="text-center mb-12 z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-center gap-2 mb-4"
-        >
-          <div className="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <Zap size={20} className="text-white fill-white" />
-          </div>
-          <span className="text-xl font-black tracking-tighter">SlotFlow</span>
-        </motion.div>
-        <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-2">
-          Book your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">time slot</span>
-        </h1>
-        <p className="text-slate-500 font-medium">Live availability — pick a day and select an open time.</p>
+      {/* Background Animated Gradient */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-600/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-fuchsia-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
-      {/* Main Container */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-2xl bg-[#0d1117] border border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative z-10"
-      >
-        {/* Section: Select a Day */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 mb-6 text-slate-400">
-            <Calendar size={16} />
-            <span className="text-xs font-black uppercase tracking-widest">Select a Day</span>
+      {/* Nav & Live Clock */}
+      <nav className="p-8 flex justify-between items-start z-10">
+        <Link href="/" className="flex items-center gap-2 text-slate-500 hover:text-violet-400 transition-colors text-xs font-black uppercase tracking-widest">
+          <ChevronLeft size={14} /> Hub
+        </Link>
+        
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            <Layers size={12} className="text-violet-400" /> V.2.1 Real-time Glass
           </div>
-          
-          <div className="grid grid-cols-4 gap-3">
-            {MOCK_DAYS.map((day) => {
-              const openSlots = day.slots.filter(s => s.status === 'available').length;
-              const isActive = selectedDayId === day.id;
-
-              return (
-                <button
-                  key={day.id}
-                  onClick={() => handleDayChange(day.id)}
-                  className={`relative flex flex-col items-center justify-center py-5 rounded-3xl border transition-all duration-300 ${
-                    isActive 
-                    ? 'bg-emerald-500/10 border-emerald-500/50 shadow-lg shadow-emerald-500/10' 
-                    : 'bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.08]'
-                  }`}
-                >
-                  <span className={`text-[10px] font-black mb-1 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
-                    {day.dayName}
-                  </span>
-                  <span className="text-2xl font-black mb-2 tracking-tighter">
-                    {day.date}
-                  </span>
-                  <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${isActive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/5 text-slate-500'}`}>
-                    {openSlots} open
-                  </span>
-                  
-                  {isActive && (
-                    <motion.div 
-                      layoutId="day-active"
-                      className="absolute inset-0 border-2 border-emerald-500 rounded-3xl"
-                    />
-                  )}
-                </button>
-              );
-            })}
+          <div className="flex items-center gap-2 text-violet-400 font-mono text-sm bg-violet-500/10 px-3 py-1 rounded-lg border border-violet-500/20 shadow-lg shadow-violet-500/5">
+            <Timer size={14} className="animate-spin-slow" /> {timeString}
           </div>
         </div>
+      </nav>
 
-        <div className="h-px bg-white/5 mb-10" />
+      <div className="flex-1 flex items-center justify-center p-6 z-10">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-12">
+          
+          {/* LEFT: STEP INDICATOR & TITLE */}
+          <div className="lg:w-1/3 flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-lg text-violet-400 text-[10px] font-black uppercase tracking-widest">
+                <Sparkles size={12} /> Bước {step} trên 3
+              </div>
+              <h1 className="text-7xl font-black tracking-tighter leading-none italic">
+                LIVE<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400 underline decoration-violet-500/30">SLOTS.</span>
+              </h1>
+              <p className="text-slate-400 text-sm max-w-xs font-medium leading-relaxed">
+                Hệ thống đặt lịch thông minh tích hợp thời gian thực và giao diện kính mờ.
+              </p>
 
-        {/* Section: Available Times */}
-        <div className="mb-10">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-2 text-slate-400">
-              <Clock size={16} />
-              <span className="text-xs font-black uppercase tracking-widest">Available Times</span>
-            </div>
-            <span className="text-xs font-bold text-slate-500 tracking-tight">
-              {activeDay.dayName === "WED" ? "Wednesday" : activeDay.dayName}, May {activeDay.date}
-            </span>
+              {/* Steps Visual */}
+              <div className="space-y-4 pt-8 border-l border-white/10 ml-4 pl-8">
+                {[
+                  { id: 1, label: "Chọn Ngày", icon: Calendar },
+                  { id: 2, label: "Chọn Giờ", icon: Clock },
+                  { id: 3, label: "Xác Nhận", icon: CheckCircle2 }
+                ].map((s) => (
+                  <div key={s.id} className={`flex items-center gap-4 transition-all duration-500 relative ${step >= s.id ? 'opacity-100' : 'opacity-20'}`}>
+                    {step === s.id && (
+                      <motion.div layoutId="step-indicator" className="absolute -left-[37px] w-2 h-2 bg-violet-400 rounded-full shadow-[0_0_10px_#a78bfa]" />
+                    )}
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${step >= s.id ? 'bg-violet-500 border-violet-400 shadow-lg shadow-violet-500/20' : 'border-white/20'}`}>
+                      {step > s.id ? <CheckCircle2 size={14} /> : <s.icon size={14} />}
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* RIGHT: INTERACTIVE CARDS */}
+          <div className="lg:w-2/3">
             <AnimatePresence mode="wait">
-              <motion.div 
-                key={selectedDayId}
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
-                className="contents"
-              >
-                {activeDay.slots.map((slot, idx) => {
-                  const isSelected = selectedTime === slot.time;
-                  const isBookedSlot = slot.status === 'booked';
-
-                  return (
+              {step === 1 && (
+                <motion.div
+                  key="step-1"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                >
+                  {MOCK_DAYS.map((day) => (
                     <button
-                      key={idx}
-                      disabled={isBookedSlot}
-                      onClick={() => setSelectedTime(slot.time)}
-                      className={`group relative flex items-center justify-center gap-2 py-4 rounded-2xl border font-bold text-sm transition-all duration-200 ${
-                        isBookedSlot
-                        ? 'opacity-20 cursor-not-allowed bg-transparent border-white/5'
-                        : isSelected
-                          ? 'bg-cyan-500/10 border-cyan-500/60 text-white shadow-lg shadow-cyan-500/10'
-                          : 'bg-white/5 border-white/5 text-slate-400 hover:border-white/20 hover:text-white'
-                      }`}
+                      key={day.id}
+                      onClick={() => { setSelectedDayId(day.id); setStep(2); }}
+                      className="group relative h-56 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 flex flex-col justify-between hover:bg-white/10 hover:border-violet-500/50 transition-all duration-500 text-left overflow-hidden"
                     >
-                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
-                        isSelected ? 'border-cyan-400 bg-cyan-400/20' : 'border-slate-700'
-                      }`}>
-                        {isSelected && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-1.5 h-1.5 rounded-full bg-cyan-400" />}
+                      <div className="z-10">
+                        <span className="text-[10px] font-black text-violet-400 mb-1 block">{day.fullName}</span>
+                        <span className="text-5xl font-black tracking-tighter block group-hover:scale-110 transition-transform origin-left duration-500">
+                          {day.date}
+                        </span>
                       </div>
-                      {slot.time}
+                      <div className="z-10 flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tháng 5</span>
+                        <div className="w-8 h-8 rounded-full bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500 group-hover:text-white transition-all">
+                          <ArrowRight size={14} />
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-violet-600/0 to-violet-600/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </button>
-                  );
-                })}
-              </motion.div>
+                  ))}
+                </motion.div>
+              )}
+
+              {step === 2 && (
+                <motion.div
+                  key="step-2"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-10 relative overflow-hidden"
+                >
+                  <div className="flex items-center justify-between mb-10">
+                    <button onClick={() => setStep(1)} className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors">
+                      ← Quay lại chọn ngày
+                    </button>
+                    <div className="flex items-center gap-2">
+                       <span className="text-xs font-bold text-violet-400">{activeDay.fullName}, Ngày {activeDay.date}</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {activeDay.slots.map((slot, idx) => {
+                      const isSelected = selectedTime === slot.time;
+                      const isBooked = slot.status === 'booked';
+                      return (
+                        <button
+                          key={idx}
+                          disabled={isBooked}
+                          onClick={() => setSelectedTime(slot.time)}
+                          className={`relative py-6 rounded-2xl border font-black text-lg transition-all duration-300 overflow-hidden ${
+                            isBooked 
+                            ? 'opacity-10 cursor-not-allowed grayscale' 
+                            : isSelected 
+                              ? 'border-violet-500 text-white' 
+                              : 'border-white/5 bg-white/5 hover:border-white/20'
+                          }`}
+                        >
+                          <span className="relative z-10">{slot.time}</span>
+                          {isSelected && (
+                            <motion.div 
+                              layoutId="slot-bg" 
+                              className="absolute inset-0 bg-gradient-to-br from-violet-600 to-fuchsia-600"
+                            />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    disabled={!selectedTime}
+                    onClick={() => setStep(3)}
+                    className="w-full mt-10 py-5 bg-white text-black font-black rounded-2xl flex items-center justify-center gap-3 hover:bg-violet-400 hover:text-white transition-all disabled:opacity-20 shadow-2xl shadow-white/5"
+                  >
+                    Xác nhận khung giờ <ArrowRight size={18} />
+                  </button>
+                </motion.div>
+              )}
+
+              {step === 3 && (
+                <motion.div
+                  key="step-3"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-[2.5rem] p-12 text-center shadow-2xl shadow-violet-500/20 relative overflow-hidden"
+                >
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"
+                  />
+                  
+                  <CheckCircle2 size={80} className="mx-auto mb-8 text-white" />
+                  <h2 className="text-5xl font-black tracking-tighter mb-4 italic">HOÀN TẤT!</h2>
+                  <p className="text-white/80 font-medium mb-10 max-w-sm mx-auto leading-relaxed">
+                    Bạn đã đặt thành công lịch vào <br/>
+                    <span className="text-white font-black bg-black/20 px-2 py-1 rounded-lg">
+                      {activeDay.fullName}, Ngày {activeDay.date} lúc {selectedTime}
+                    </span>
+                  </p>
+                  <button
+                    onClick={() => { setStep(1); setSelectedTime(null); }}
+                    className="px-10 py-4 bg-black text-white font-black rounded-2xl hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/10"
+                  >
+                    Quay lại trang chủ
+                  </button>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
+
         </div>
+      </div>
 
-        <div className="h-px bg-white/5 mb-10" />
-
-        {/* Footer: Summary & CTA */}
-        <div className="flex flex-col items-center gap-6">
-          <div className="px-5 py-3 bg-cyan-500/5 border border-cyan-500/20 rounded-2xl flex items-center gap-3">
-            <Calendar size={14} className="text-cyan-400" />
-            <span className="text-xs font-bold text-slate-300">
-              Selected: <span className="text-white">{selectedTime ? `${activeDay.dayName}, May ${activeDay.date} at ${selectedTime}` : 'None'}</span>
-            </span>
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleBooking}
-            disabled={!selectedTime || isBooked}
-            className={`w-full py-5 rounded-3xl font-black text-lg flex items-center justify-center gap-3 transition-all relative overflow-hidden group ${
-              isBooked
-              ? 'bg-emerald-500 text-white cursor-default'
-              : selectedTime 
-                ? 'bg-gradient-to-r from-cyan-500 to-emerald-500 text-white shadow-xl shadow-cyan-500/20' 
-                : 'bg-white/5 text-slate-600 cursor-not-allowed'
-            }`}
-          >
-            {isBooked ? (
-              <>
-                <CheckCircle2 size={24} />
-                Booking Confirmed!
-              </>
-            ) : (
-              <>
-                <Zap size={22} className={selectedTime ? "fill-white" : ""} />
-                {selectedTime ? 'Book this time' : 'Select a slot to book'}
-              </>
-            )}
-            
-            {/* Animated Shine Effect */}
-            {selectedTime && !isBooked && (
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shine" />
-            )}
-          </motion.button>
-
-          {isBooked && (
-            <motion.p 
-              initial={{ opacity: 0, y: 10 }} 
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xs font-bold text-emerald-400 flex items-center gap-2"
-            >
-              <CheckCircle2 size={12} /> A confirmation email has been sent.
-            </motion.p>
-          )}
-        </div>
-      </motion.div>
-
-      {/* Decorative Blur */}
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#ffffff05 1px, transparent 1px), linear-gradient(90deg, #ffffff05 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
       <style jsx global>{`
-        @keyframes shine {
-          100% { transform: translateX(100%); }
+        .animate-spin-slow {
+          animation: spin 8s linear infinite;
         }
-        .animate-shine {
-          animation: shine 1.5s infinite;
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </main>
