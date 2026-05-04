@@ -128,6 +128,12 @@ export default function Home() {
       title: "Sticky Scroll Navigator",
       description: "Advanced scroll-spy sidebar with sticky positioning and section-based navigation hub.",
       tags: ["Scroll Spy", "Sticky UI", "Intersection Observer"]
+    },
+    {
+      id: 36,
+      title: "Next.js 16 & Turbopack",
+      description: "Infrastructure upgrade to Next.js 16 with Rust-based Turbopack for instant development response.",
+      tags: ["Next.js 16", "Turbopack", "Performance"]
     }
     // Add more puzzles here as they are created
   ];

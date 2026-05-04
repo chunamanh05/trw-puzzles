@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     }
 
     // Wrap the spawn process in a Promise to await its completion
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       const pythonProcess = spawn('python', ['src/app/puzzle-31/generate_qr.py']);
       
       let stdoutData = '';

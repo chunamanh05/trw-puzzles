@@ -81,6 +81,11 @@ export async function GET() {
       id: 35, 
       title: "Sticky Navigator", 
       desc: "AEO-optimized sidebar navigation with smooth scrolling and dynamic scroll-spy capabilities." 
+    },
+    { 
+      id: 36, 
+      title: "Core Infrastructure", 
+      desc: "Upgraded project engine to Next.js 16 and Turbopack for maximum developer efficiency and speed." 
     }
   ];
 
