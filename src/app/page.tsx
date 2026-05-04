@@ -104,6 +104,12 @@ export default function Home() {
       title: "Cinematic Page Load",
       description: "Eliminate blank screens with a staggered loading sequence and highly reactive hover states.",
       tags: ["Framer Motion", "Pre-loader", "Reactive UI"]
+    },
+    {
+      id: 31,
+      title: "Python QR Microservice",
+      description: "Generate scannable QR codes instantly using a local Python backend integrated via API route.",
+      tags: ["Python", "Microservice", "QR Code"]
     }
     // Add more puzzles here as they are created
   ];
