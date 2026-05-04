@@ -13,7 +13,7 @@ interface DayAvailability { id: string; date: number; dayName: string; fullName:
 // --- Extended Mock Data ---
 const MOCK_DAYS: DayAvailability[] = [
   {
-    id: "day-1", date: 5, dayName: "TUE", fullName: "Thứ Ba",
+    id: "day-1", date: 5, dayName: "TUE", fullName: "Tuesday",
     slots: [
       { time: "08:30", status: "booked" }, { time: "09:30", status: "available" },
       { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
@@ -22,7 +22,7 @@ const MOCK_DAYS: DayAvailability[] = [
     ]
   },
   {
-    id: "day-2", date: 6, dayName: "WED", fullName: "Thứ Tư",
+    id: "day-2", date: 6, dayName: "WED", fullName: "Wednesday",
     slots: [
       { time: "08:30", status: "available" }, { time: "09:30", status: "available" },
       { time: "10:30", status: "available" }, { time: "11:30", status: "booked" },
@@ -31,7 +31,7 @@ const MOCK_DAYS: DayAvailability[] = [
     ]
   },
   {
-    id: "day-3", date: 7, dayName: "THU", fullName: "Thứ Năm",
+    id: "day-3", date: 7, dayName: "THU", fullName: "Thursday",
     slots: [
       { time: "08:30", status: "booked" }, { time: "09:30", status: "booked" },
       { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
@@ -40,7 +40,7 @@ const MOCK_DAYS: DayAvailability[] = [
     ]
   },
   {
-    id: "day-4", date: 8, dayName: "FRI", fullName: "Thứ Sáu",
+    id: "day-4", date: 8, dayName: "FRI", fullName: "Friday",
     slots: [
       { time: "08:30", status: "available" }, { time: "09:30", status: "available" },
       { time: "10:30", status: "available" }, { time: "11:30", status: "available" },
@@ -64,7 +64,7 @@ export default function GlassBookingPage() {
 
   const activeDay = useMemo(() => MOCK_DAYS.find(d => d.id === selectedDayId)!, [selectedDayId]);
 
-  const timeString = currentTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const timeString = currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
 
   return (
     <main className="min-h-screen bg-[#030014] text-white flex flex-col font-sans relative overflow-hidden">
@@ -83,7 +83,7 @@ export default function GlassBookingPage() {
         
         <div className="flex flex-col items-end gap-2">
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            <Layers size={12} className="text-violet-400" /> V.2.1 Real-time Glass
+            <Layers size={12} className="text-violet-400" /> V.2.2 Real-time Engine
           </div>
           <div className="flex items-center gap-2 text-violet-400 font-mono text-sm bg-violet-500/10 px-3 py-1 rounded-lg border border-violet-500/20 shadow-lg shadow-violet-500/5">
             <Timer size={14} className="animate-spin-slow" /> {timeString}
@@ -102,22 +102,22 @@ export default function GlassBookingPage() {
               className="space-y-6"
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-lg text-violet-400 text-[10px] font-black uppercase tracking-widest">
-                <Sparkles size={12} /> Bước {step} trên 3
+                <Sparkles size={12} /> Step {step} of 3
               </div>
               <h1 className="text-7xl font-black tracking-tighter leading-none italic">
                 LIVE<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400 underline decoration-violet-500/30">SLOTS.</span>
               </h1>
               <p className="text-slate-400 text-sm max-w-xs font-medium leading-relaxed">
-                Hệ thống đặt lịch thông minh tích hợp thời gian thực và giao diện kính mờ.
+                Seamless reservation flow with real-time availability and glassmorphic architecture.
               </p>
 
               {/* Steps Visual */}
               <div className="space-y-4 pt-8 border-l border-white/10 ml-4 pl-8">
                 {[
-                  { id: 1, label: "Chọn Ngày", icon: Calendar },
-                  { id: 2, label: "Chọn Giờ", icon: Clock },
-                  { id: 3, label: "Xác Nhận", icon: CheckCircle2 }
+                  { id: 1, label: "Select Date", icon: Calendar },
+                  { id: 2, label: "Pick a Slot", icon: Clock },
+                  { id: 3, label: "Confirmation", icon: CheckCircle2 }
                 ].map((s) => (
                   <div key={s.id} className={`flex items-center gap-4 transition-all duration-500 relative ${step >= s.id ? 'opacity-100' : 'opacity-20'}`}>
                     {step === s.id && (
@@ -151,13 +151,13 @@ export default function GlassBookingPage() {
                       className="group relative h-56 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 flex flex-col justify-between hover:bg-white/10 hover:border-violet-500/50 transition-all duration-500 text-left overflow-hidden"
                     >
                       <div className="z-10">
-                        <span className="text-[10px] font-black text-violet-400 mb-1 block">{day.fullName}</span>
+                        <span className="text-[10px] font-black text-violet-400 mb-1 block">{day.dayName}</span>
                         <span className="text-5xl font-black tracking-tighter block group-hover:scale-110 transition-transform origin-left duration-500">
                           {day.date}
                         </span>
                       </div>
                       <div className="z-10 flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tháng 5</span>
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">May 2026</span>
                         <div className="w-8 h-8 rounded-full bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500 group-hover:text-white transition-all">
                           <ArrowRight size={14} />
                         </div>
@@ -178,10 +178,10 @@ export default function GlassBookingPage() {
                 >
                   <div className="flex items-center justify-between mb-10">
                     <button onClick={() => setStep(1)} className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors">
-                      ← Quay lại chọn ngày
+                      ← Back to selection
                     </button>
                     <div className="flex items-center gap-2">
-                       <span className="text-xs font-bold text-violet-400">{activeDay.fullName}, Ngày {activeDay.date}</span>
+                       <span className="text-xs font-bold text-violet-400">{activeDay.fullName}, May {activeDay.date}</span>
                     </div>
                   </div>
 
@@ -219,7 +219,7 @@ export default function GlassBookingPage() {
                     onClick={() => setStep(3)}
                     className="w-full mt-10 py-5 bg-white text-black font-black rounded-2xl flex items-center justify-center gap-3 hover:bg-violet-400 hover:text-white transition-all disabled:opacity-20 shadow-2xl shadow-white/5"
                   >
-                    Xác nhận khung giờ <ArrowRight size={18} />
+                    Confirm Selection <ArrowRight size={18} />
                   </button>
                 </motion.div>
               )}
@@ -238,18 +238,18 @@ export default function GlassBookingPage() {
                   />
                   
                   <CheckCircle2 size={80} className="mx-auto mb-8 text-white" />
-                  <h2 className="text-5xl font-black tracking-tighter mb-4 italic">HOÀN TẤT!</h2>
+                  <h2 className="text-5xl font-black tracking-tighter mb-4 italic">SUCCESS!</h2>
                   <p className="text-white/80 font-medium mb-10 max-w-sm mx-auto leading-relaxed">
-                    Bạn đã đặt thành công lịch vào <br/>
+                    You have successfully booked your slot on <br/>
                     <span className="text-white font-black bg-black/20 px-2 py-1 rounded-lg">
-                      {activeDay.fullName}, Ngày {activeDay.date} lúc {selectedTime}
+                      {activeDay.fullName}, May {activeDay.date} at {selectedTime}
                     </span>
                   </p>
                   <button
                     onClick={() => { setStep(1); setSelectedTime(null); }}
                     className="px-10 py-4 bg-black text-white font-black rounded-2xl hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/10"
                   >
-                    Quay lại trang chủ
+                    Return Home
                   </button>
                 </motion.div>
               )}
