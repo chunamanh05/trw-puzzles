@@ -71,6 +71,11 @@ export async function GET() {
       id: 32, 
       title: "AEO Endpoint (ai.txt)", 
       desc: "Current implementation providing LLM-readable structured knowledge for AI-driven search engines." 
+    },
+    { 
+      id: 105, 
+      title: "SlotFlow Booking", 
+      desc: "High-performance availability selector with real-time slot control and automated confirmations." 
     }
   ];
 

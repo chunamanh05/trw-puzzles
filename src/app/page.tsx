@@ -116,6 +116,12 @@ export default function Home() {
       title: "AEO Endpoint (ai.txt)",
       description: "Future-proof your site for AI search with a structured Markdown manifesto at /ai.txt.",
       tags: ["AEO", "Markdown", "Next.js Route"]
+    },
+    {
+      id: 105,
+      title: "SlotFlow Booking System",
+      description: "Live availability and booking slot selector with real-time state management and dynamic UX.",
+      tags: ["Booking", "State Management", "Framer Motion"]
     }
     // Add more puzzles here as they are created
   ];
