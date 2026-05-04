@@ -122,6 +122,12 @@ export default function Home() {
       title: "SlotFlow Booking System",
       description: "Live availability and booking slot selector with real-time state management and dynamic UX.",
       tags: ["Booking", "State Management", "Framer Motion"]
+    },
+    {
+      id: 35,
+      title: "Sticky Scroll Navigator",
+      description: "Advanced scroll-spy sidebar with sticky positioning and section-based navigation hub.",
+      tags: ["Scroll Spy", "Sticky UI", "Intersection Observer"]
     }
     // Add more puzzles here as they are created
   ];

@@ -76,6 +76,11 @@ export async function GET() {
       id: 105, 
       title: "SlotFlow Booking", 
       desc: "High-performance availability selector with real-time slot control and automated confirmations." 
+    },
+    { 
+      id: 35, 
+      title: "Sticky Navigator", 
+      desc: "AEO-optimized sidebar navigation with smooth scrolling and dynamic scroll-spy capabilities." 
     }
   ];
 
