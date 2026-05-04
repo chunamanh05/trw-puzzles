@@ -110,6 +110,12 @@ export default function Home() {
       title: "Python QR Microservice",
       description: "Generate scannable QR codes instantly using a local Python backend integrated via API route.",
       tags: ["Python", "Microservice", "QR Code"]
+    },
+    {
+      id: 32,
+      title: "AEO Endpoint (ai.txt)",
+      description: "Future-proof your site for AI search with a structured Markdown manifesto at /ai.txt.",
+      tags: ["AEO", "Markdown", "Next.js Route"]
     }
     // Add more puzzles here as they are created
   ];
