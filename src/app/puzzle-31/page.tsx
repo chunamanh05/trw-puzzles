@@ -44,7 +44,7 @@ export default function PythonMicroservicePage() {
     if (!qrImage) return;
     const a = document.createElement("a");
     a.href = qrImage;
-    a.download = \`qr-\${url.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png\`;
+    a.download = `qr-${url.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
