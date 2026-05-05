@@ -91,6 +91,11 @@ export async function GET() {
       id: 39, 
       title: "Real Estate Mega Menu", 
       desc: "Structured multi-column navigation hub designed for high-density information architecture and luxury UX." 
+    },
+    { 
+      id: 43, 
+      title: "Magic Marquee Loop", 
+      desc: "High-performance autonomous content showcase with seamless looping and interactive pause states." 
     }
   ];
 

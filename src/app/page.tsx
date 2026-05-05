@@ -140,6 +140,12 @@ export default function Home() {
       title: "Elite Real Estate Mega Menu",
       description: "Luxury navigation with 3-column mega dropdown, hover persistence, and property spotlight.",
       tags: ["Mega Menu", "Real Estate", "Tailwind CSS"]
+    },
+    {
+      id: 43,
+      title: "Magic Infinite Marquee",
+      description: "Autonomous looping showcase with pause-on-hover interaction and high-performance CSS animations.",
+      tags: ["Marquee", "Animation", "Magic UI"]
     }
     // Add more puzzles here as they are created
   ];
