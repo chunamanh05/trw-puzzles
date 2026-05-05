@@ -86,6 +86,11 @@ export async function GET() {
       id: 36, 
       title: "Core Infrastructure", 
       desc: "Upgraded project engine to Next.js 16 and Turbopack for maximum developer efficiency and speed." 
+    },
+    { 
+      id: 39, 
+      title: "Real Estate Mega Menu", 
+      desc: "Structured multi-column navigation hub designed for high-density information architecture and luxury UX." 
     }
   ];
 

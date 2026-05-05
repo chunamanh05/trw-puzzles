@@ -134,6 +134,12 @@ export default function Home() {
       title: "Next.js 16 & Turbopack",
       description: "Infrastructure upgrade to Next.js 16 with Rust-based Turbopack for instant development response.",
       tags: ["Next.js 16", "Turbopack", "Performance"]
+    },
+    {
+      id: 39,
+      title: "Elite Real Estate Mega Menu",
+      description: "Luxury navigation with 3-column mega dropdown, hover persistence, and property spotlight.",
+      tags: ["Mega Menu", "Real Estate", "Tailwind CSS"]
     }
     // Add more puzzles here as they are created
   ];
