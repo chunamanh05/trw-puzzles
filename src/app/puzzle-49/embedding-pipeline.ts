@@ -1,70 +1,35 @@
 /**
- * Singleton embedding pipeline cho Transformers.js.
- * Chỉ load model 1 lần, sau đó cache lại — tránh tải lại 25MB mỗi lần dùng.
+ * Client-side embedding utility.
+ * Gọi tới /api/embed (Next.js API Route) — API key nằm server-side, không lộ ra browser.
+ * Dùng OpenAI text-embedding-3-small: 1536 chiều, rất chính xác.
  */
 
-type EmbeddingPipeline = (
-  texts: string | string[],
-  options?: { pooling: string; normalize: boolean }
-) => Promise<{ data: Float32Array }>;
+/** Cache tránh gọi API trùng lặp */
+const cache = new Map<string, number[]>();
 
-let pipelineInstance: EmbeddingPipeline | null = null;
-let loadingPromise: Promise<EmbeddingPipeline> | null = null;
+/** Gọi API route nội bộ để lấy embedding */
+export async function embedCached(text: string): Promise<number[]> {
+  if (cache.has(text)) return cache.get(text)!;
 
-export async function getEmbeddingPipeline(
-  onProgress?: (progress: number) => void
-): Promise<EmbeddingPipeline> {
-  // Đã có instance → trả về ngay
-  if (pipelineInstance) return pipelineInstance;
+  const res = await fetch("/api/embed", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
 
-  // Đang tải → đợi promise đang chạy thay vì tạo thêm
-  if (loadingPromise) return loadingPromise;
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(err.error || `API error ${res.status}`);
+  }
 
-  loadingPromise = (async () => {
-    // Dynamic import để tránh SSR lỗi
-    const { pipeline, env } = await import("@xenova/transformers");
-
-    // Dùng cache của trình duyệt — không tải lại sau lần đầu
-    env.allowLocalModels = false;
-    env.useBrowserCache = true;
-
-    const pipe = await pipeline(
-      "feature-extraction",
-      "Xenova/all-MiniLM-L6-v2", // ~25MB, hỗ trợ đa ngôn ngữ cơ bản
-      {
-        progress_callback: (info: { status: string; progress?: number }) => {
-          if (info.status === "progress" && info.progress !== undefined) {
-            onProgress?.(info.progress);
-          }
-        },
-      }
-    );
-
-    pipelineInstance = pipe as unknown as EmbeddingPipeline;
-    return pipelineInstance;
-  })();
-
-  return loadingPromise;
+  const { vector } = await res.json();
+  cache.set(text, vector);
+  return vector;
 }
 
-/**
- * Embed một chuỗi văn bản → trả về mảng số (vector).
- * Model all-MiniLM-L6-v2 tạo ra vector 384 chiều.
- */
-export async function embed(text: string): Promise<number[]> {
-  const pipe = await getEmbeddingPipeline();
-  const output = await pipe(text, { pooling: "mean", normalize: true });
-  return Array.from(output.data);
-}
-
-/**
- * Tính cosine similarity giữa 2 vector.
- * Kết quả từ -1 đến 1 — càng gần 1 càng tương đồng về nghĩa.
- */
+/** Cosine similarity: -1 → 1, càng gần 1 càng tương đồng về nghĩa */
 export function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0;
-  let magA = 0;
-  let magB = 0;
+  let dot = 0, magA = 0, magB = 0;
   for (let i = 0; i < a.length; i++) {
     dot += a[i] * b[i];
     magA += a[i] * a[i];
