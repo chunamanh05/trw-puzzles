@@ -95,7 +95,22 @@ export async function GET() {
     { 
       id: 43, 
       title: "Magic Marquee Loop", 
-      desc: "High-performance autonomous content showcase with seamless looping and interactive pause states." 
+      desc: "High-performance autonomous content showcase with seamless looping and interactive user pause states." 
+    },
+    { 
+      id: 44, 
+      title: "Dynamic Blog CMS", 
+      desc: "Fullstack blog system with Supabase integration and a secure dynamic Admin Panel for real-time updates." 
+    },
+    { 
+      id: 106, 
+      title: "Secure Vault Access", 
+      desc: "Gated content system with persistent access codes and local state encryption using localStorage." 
+    },
+    { 
+      id: 46, 
+      title: "The Estate Horizon", 
+      desc: "Premium real estate showcase using bi-directional horizontal side-scrolling and sticky UI components." 
     }
   ];
 

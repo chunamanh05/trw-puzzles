@@ -146,12 +146,26 @@ export default function Home() {
       title: "Magic Infinite Marquee",
       description: "Autonomous looping showcase with pause-on-hover interaction and high-performance CSS animations.",
       tags: ["Marquee", "Animation", "Magic UI"]
+    },
+    {
+      id: 106,
+      title: "Secure Vault Access",
+      description: "Gated content system with persistent access codes and local state storage.",
+      tags: ["Security", "LocalStorage", "Gated Content"]
+    },
+    {
+      id: 46,
+      title: "The Estate Horizon",
+      description: "Infinite side-scrolling real estate gallery with bi-directional auto-scroll.",
+      tags: ["Horizontal Scroll", "Real Estate", "Automation"]
+    },
+    {
+      id: 44,
+      title: "Dynamic Blog CMS",
+      description: "Fullstack blog with Supabase integration and dynamic Admin Panel.",
+      tags: ["Fullstack", "Supabase", "CMS"]
     }
-    // Add more puzzles here as they are created
   ];
-
-
-
 
   const sortedPuzzles = [...puzzles].sort((a, b) => a.id - b.id);
 
