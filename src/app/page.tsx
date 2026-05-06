@@ -170,6 +170,12 @@ export default function Home() {
       title: "Instant Search Engine",
       description: "Client-side fuzzy search across a luxury real estate index with live keyword highlighting and zero-latency results.",
       tags: ["Fuse.js", "Fuzzy Search", "Real-time UI"]
+    },
+    {
+      id: 49,
+      title: "AI Semantic Search",
+      description: "Vector embedding search powered by Transformers.js — tìm kiếm bằng ý nghĩa, không chỉ từ khóa. Cosine similarity, chạy hoàn toàn trong trình duyệt.",
+      tags: ["AI", "Transformers.js", "Vector Embedding"]
     }
   ];
 
