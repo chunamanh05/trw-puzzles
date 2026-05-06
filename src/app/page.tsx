@@ -164,6 +164,12 @@ export default function Home() {
       title: "Dynamic Blog CMS",
       description: "Fullstack blog with Supabase integration and dynamic Admin Panel.",
       tags: ["Fullstack", "Supabase", "CMS"]
+    },
+    {
+      id: 48,
+      title: "Instant Search Engine",
+      description: "Client-side fuzzy search across a luxury real estate index with live keyword highlighting and zero-latency results.",
+      tags: ["Fuse.js", "Fuzzy Search", "Real-time UI"]
     }
   ];
 
