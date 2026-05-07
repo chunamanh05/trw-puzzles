@@ -230,6 +230,12 @@ export default function Home() {
       title: "Opti-Core: Image Optimizer",
       description: "Công cụ tối ưu hóa hình ảnh chuyên sâu, chuyển đổi sang định dạng WebP và AVIF giúp tăng tốc độ tải trang lên đến 90%.",
       tags: ["Performance", "Utilities", "WebP", "AVIF"]
+    },
+    {
+      id: 67,
+      title: "Masonry Art Studio",
+      description: "Thư viện ảnh phong cách Pinterest, tự động sắp xếp các ảnh có chiều cao khác nhau một cách khít khao, không kẽ hở.",
+      tags: ["Layout", "Masonry", "CSS", "Gallery"]
     }
   ];
 
