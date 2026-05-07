@@ -178,6 +178,12 @@ export default function Home() {
       tags: ["AI", "Transformers.js", "Vector Embedding"]
     },
     {
+      id: 50,
+      title: "Stacked Card Slider",
+      description: "Interactive testimonial slider with a stacked card animation effect, built using Framer Motion for seamless transitions.",
+      tags: ["Framer Motion", "Slider", "UI Components"]
+    },
+    {
       id: 107,
       title: "Smart File Validator",
       description: "Hệ thống tải lên file thông minh với khả năng kiểm tra định dạng và dung lượng thời gian thực, quản lý danh sách file chấp nhận/từ chối.",
