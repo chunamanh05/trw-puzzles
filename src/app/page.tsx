@@ -248,6 +248,12 @@ export default function Home() {
       title: "FluxFrame: Page Builder",
       description: "Trình xây dựng trang web bằng kéo thả, cho phép sắp xếp lại các khối nội dung và lưu trữ bố cục cục bộ.",
       tags: ["DND", "Page Builder", "Framer Motion", "Persistence"]
+    },
+    {
+      id: 73,
+      title: "Nexus Command Center",
+      description: "Hệ thống điều khiển bằng bàn phím (Ctrl+K), cho phép tìm kiếm và thực thi các lệnh hệ thống cực nhanh.",
+      tags: ["UX", "Command Palette", "Keyboard", "Efficiency"]
     }
   ];
 
