@@ -236,6 +236,12 @@ export default function Home() {
       title: "Masonry Art Studio",
       description: "Thư viện ảnh phong cách Pinterest, tự động sắp xếp các ảnh có chiều cao khác nhau một cách khít khao, không kẽ hở.",
       tags: ["Layout", "Masonry", "CSS", "Gallery"]
+    },
+    {
+      id: 69,
+      title: "Contact Studio: Google Maps",
+      description: "Trang liên hệ hiện đại tích hợp bản đồ Google Maps tương tác, cho phép người dùng chỉ đường và xem vị trí thực tế.",
+      tags: ["Google Maps", "Contact", "Iframe", "Location"]
     }
   ];
 
