@@ -206,6 +206,12 @@ export default function Home() {
       title: "Multi-version Landing Pages",
       description: "Hệ thống A/B Testing với 3 phiên bản Landing Page khác nhau hoàn toàn về phong cách: Cyberpunk, Minimalist và Retro Future.",
       tags: ["A/B Testing", "Aesthetics", "Design Systems"]
+    },
+    {
+      id: 59,
+      title: "Pro AI Agent (Rich UI)",
+      description: "Nâng cấp Chatbot Nexus với khả năng hiển thị Carousel dịch vụ và các nút tương tác nhanh (Quick Replies) dựa trên phản hồi của AI.",
+      tags: ["AI", "Hybrid UI", "Carousel", "Buttons"]
     }
   ];
 
