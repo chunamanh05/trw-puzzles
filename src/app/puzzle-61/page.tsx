@@ -41,7 +41,7 @@ export default function Puzzle61VideoHero() {
           className="h-full w-full object-cover"
         >
           <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-with-neon-lights-40138-large.mp4" 
+            src="/videos/hero.mp4" 
             type="video/mp4" 
           />
           Your browser does not support the video tag.

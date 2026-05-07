@@ -212,6 +212,12 @@ export default function Home() {
       title: "Pro AI Agent (Rich UI)",
       description: "Nâng cấp Chatbot Nexus với khả năng hiển thị Carousel dịch vụ và các nút tương tác nhanh (Quick Replies) dựa trên phản hồi của AI.",
       tags: ["AI", "Hybrid UI", "Carousel", "Buttons"]
+    },
+    {
+      id: 61,
+      title: "Cinematic Video Hero",
+      description: "Giao diện Hero với video nền chất lượng cao, không có thanh điều khiển và tiêu đề đè lên cực kỳ sang trọng.",
+      tags: ["Cinematic", "Video", "UX"]
     }
   ];
 
