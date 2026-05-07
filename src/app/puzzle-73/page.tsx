@@ -30,20 +30,40 @@ export default function Puzzle73CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isDark, setIsDark] = useState(true); // Local theme state for reliability
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const COMMANDS = [
+    { id: "home", title: "Go to Home", subtitle: "Navigate back to the main lobby", icon: Home, shortcut: "gh", action: () => window.location.href = "/" },
+    { id: "theme", title: "Toggle Theme", subtitle: "Switch between light and dark mode", icon: isDark ? Sun : Moon, shortcut: "tt", action: () => setIsDark(!isDark) },
+    { id: "copy", title: "Copy Page URL", subtitle: "Copy current URL to clipboard", icon: LinkIcon, shortcut: "cu", action: () => { navigator.clipboard.writeText(window.location.href); alert("Copied to clipboard!"); } },
+    { id: "sys", title: "System Status", subtitle: "Check current system performance", icon: Cpu, shortcut: "ss", action: () => alert("System: 100% Stable. All nodes active.") },
+  ];
 
   // Filter commands based on query
   const filteredCommands = useMemo(() => {
     return COMMANDS.filter(cmd => 
       cmd.title.toLowerCase().includes(query.toLowerCase()) || 
-      cmd.subtitle.toLowerCase().includes(query.toLowerCase())
+      cmd.subtitle.toLowerCase().includes(query.toLowerCase()) ||
+      cmd.shortcut.toLowerCase() === query.toLowerCase()
     );
+  }, [query, isDark]);
+
+  // Execute shortcut if query matches exactly
+  useEffect(() => {
+    const match = COMMANDS.find(c => c.shortcut === query.toLowerCase());
+    if (match) {
+      setTimeout(() => {
+        match.action();
+        setIsOpen(false);
+        setQuery("");
+      }, 300); // Small delay to show the match
+    }
   }, [query]);
 
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Toggle palette with Ctrl+K or Cmd+K
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
         setIsOpen(prev => !prev);
@@ -86,12 +106,15 @@ export default function Puzzle73CommandPalette() {
   }, [isOpen]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-white transition-colors duration-500 flex flex-col items-center justify-center p-6">
+    <div className={cn(
+      "min-h-screen transition-colors duration-500 flex flex-col items-center justify-center p-6",
+      isDark ? "bg-[#020617] text-white" : "bg-white text-slate-900"
+    )}>
       
       {/* Background Decor */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
+        <div className={cn("absolute top-[-10%] left-[-10%] w-[40%] h-[40%] blur-[120px] rounded-full", isDark ? "bg-indigo-500/10" : "bg-indigo-500/5")} />
+        <div className={cn("absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] blur-[120px] rounded-full", isDark ? "bg-blue-500/10" : "bg-blue-500/5")} />
       </div>
 
       <div className="max-w-xl w-full text-center space-y-8">
@@ -104,13 +127,13 @@ export default function Puzzle73CommandPalette() {
         
         <div className="space-y-4">
           <h1 className="text-4xl font-black tracking-tight uppercase">Nexus Command</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-            Unleash the full potential of productivity. Press <kbd className="px-2 py-1 bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 rounded shadow-sm font-mono text-sm">Ctrl + K</kbd> to begin.
+          <p className={cn("font-medium leading-relaxed", isDark ? "text-slate-400" : "text-slate-500")}>
+            Unleash the full potential of productivity. Press <kbd className={cn("px-2 py-1 border rounded shadow-sm font-mono text-sm", isDark ? "bg-white/10 border-white/10" : "bg-slate-100 border-slate-200")}>Ctrl + K</kbd> to begin.
           </p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 pt-8">
-          <Link href="/" className="px-6 py-3 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all">
+          <Link href="/" className={cn("px-6 py-3 border rounded-2xl text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-all", isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200 text-slate-400")}>
             <ArrowLeft size={16} /> Back to Lobby
           </Link>
           <button 
@@ -138,10 +161,13 @@ export default function Puzzle73CommandPalette() {
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              className="relative w-full max-w-2xl bg-white dark:bg-[#0f172a] rounded-[2rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden"
+              className={cn(
+                "relative w-full max-w-2xl rounded-[2rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] border overflow-hidden",
+                isDark ? "bg-[#0f172a] border-white/10" : "bg-white border-slate-200 text-slate-900"
+              )}
             >
               {/* Search Bar */}
-              <div className="relative p-6 border-b border-slate-100 dark:border-white/5 flex items-center gap-4">
+              <div className={cn("relative p-6 border-b flex items-center gap-4", isDark ? "border-white/5" : "border-slate-100")}>
                 <Search className="text-slate-400" size={24} />
                 <input 
                   ref={inputRef}
@@ -151,7 +177,7 @@ export default function Puzzle73CommandPalette() {
                   className="w-full bg-transparent outline-none text-xl font-medium placeholder:text-slate-400"
                 />
                 <div className="flex items-center gap-1.5">
-                  <span className="px-2 py-1 bg-slate-100 dark:bg-white/5 rounded text-[10px] font-mono text-slate-400 uppercase">ESC</span>
+                  <span className={cn("px-2 py-1 rounded text-[10px] font-mono uppercase", isDark ? "bg-white/5 text-slate-400" : "bg-slate-100 text-slate-400")}>ESC</span>
                 </div>
               </div>
 
@@ -166,12 +192,16 @@ export default function Puzzle73CommandPalette() {
                         onClick={() => { cmd.action(); setIsOpen(false); }}
                         className={cn(
                           "w-full flex items-center gap-4 p-4 rounded-2xl transition-all text-left group",
-                          selectedIndex === i ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20" : "hover:bg-slate-50 dark:hover:bg-white/5"
+                          selectedIndex === i 
+                            ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20" 
+                            : isDark ? "hover:bg-white/5 text-white" : "hover:bg-slate-50 text-slate-900"
                         )}
                       >
                         <div className={cn(
                           "w-12 h-12 rounded-xl flex items-center justify-center transition-colors",
-                          selectedIndex === i ? "bg-white/20" : "bg-slate-100 dark:bg-white/5 text-slate-400 group-hover:text-indigo-600"
+                          selectedIndex === i 
+                            ? "bg-white/20" 
+                            : isDark ? "bg-white/5 text-slate-400" : "bg-slate-100 text-slate-400"
                         )}>
                           <cmd.icon size={24} />
                         </div>
@@ -189,9 +219,11 @@ export default function Puzzle73CommandPalette() {
                           )}
                           <span className={cn(
                             "px-2 py-1 rounded text-[10px] font-mono transition-colors",
-                            selectedIndex === i ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-white/5 text-slate-400"
+                            selectedIndex === i 
+                              ? "bg-white/20 text-white" 
+                              : isDark ? "bg-white/5 text-slate-400" : "bg-slate-100 text-slate-400"
                           )}>
-                            {cmd.shortcut}
+                            {cmd.shortcut.toUpperCase()}
                           </span>
                         </div>
                       </button>
@@ -199,7 +231,7 @@ export default function Puzzle73CommandPalette() {
                   </div>
                 ) : (
                   <div className="py-20 text-center space-y-4">
-                    <div className="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                    <div className={cn("w-16 h-16 rounded-full flex items-center justify-center mx-auto", isDark ? "bg-white/5 text-slate-700" : "bg-slate-100 text-slate-300")}>
                       <Search size={32} />
                     </div>
                     <p className="text-slate-400 font-medium uppercase tracking-widest text-[10px]">No commands found</p>
@@ -208,12 +240,12 @@ export default function Puzzle73CommandPalette() {
               </div>
 
               {/* Footer */}
-              <div className="bg-slate-50 dark:bg-black/20 p-4 px-8 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+              <div className={cn("p-4 px-8 border-t flex items-center justify-between text-[10px] font-mono uppercase tracking-widest", isDark ? "bg-black/20 border-white/5 text-slate-400" : "bg-slate-50 border-slate-100 text-slate-400")}>
                 <div className="flex items-center gap-6">
-                  <span className="flex items-center gap-1.5"><span className="px-1.5 py-0.5 bg-slate-200 dark:bg-white/10 rounded text-slate-600 dark:text-slate-400">↑↓</span> NAVIGATE</span>
-                  <span className="flex items-center gap-1.5"><span className="px-1.5 py-0.5 bg-slate-200 dark:bg-white/10 rounded text-slate-600 dark:text-slate-400">ENTER</span> SELECT</span>
+                  <span className="flex items-center gap-1.5"><span className={cn("px-1.5 py-0.5 rounded", isDark ? "bg-white/10 text-slate-400" : "bg-slate-200 text-slate-600")}>↑↓</span> NAVIGATE</span>
+                  <span className="flex items-center gap-1.5"><span className={cn("px-1.5 py-0.5 rounded", isDark ? "bg-white/10 text-slate-400" : "bg-slate-200 text-slate-600")}>ENTER</span> SELECT</span>
                 </div>
-                <span className="flex items-center gap-2">NEXUS_OS v1.0 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /></span>
+                <span className="flex items-center gap-2">NEXUS_OS v1.1 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /></span>
               </div>
             </motion.div>
           </div>
