@@ -176,6 +176,12 @@ export default function Home() {
       title: "AI Semantic Search",
       description: "Vector embedding search powered by Transformers.js — tìm kiếm bằng ý nghĩa, không chỉ từ khóa. Cosine similarity, chạy hoàn toàn trong trình duyệt.",
       tags: ["AI", "Transformers.js", "Vector Embedding"]
+    },
+    {
+      id: 107,
+      title: "Smart File Validator",
+      description: "Hệ thống tải lên file thông minh với khả năng kiểm tra định dạng và dung lượng thời gian thực, quản lý danh sách file chấp nhận/từ chối.",
+      tags: ["File API", "Validation", "Framer Motion"]
     }
   ];
 
