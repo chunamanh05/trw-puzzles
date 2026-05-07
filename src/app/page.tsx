@@ -188,6 +188,12 @@ export default function Home() {
       title: "Smart File Validator",
       description: "Hệ thống tải lên file thông minh với khả năng kiểm tra định dạng và dung lượng thời gian thực, quản lý danh sách file chấp nhận/từ chối.",
       tags: ["File API", "Validation", "Framer Motion"]
+    },
+    {
+      id: 52,
+      title: "Nexus AI Chat Agent",
+      description: "Trợ lý AI phong cách Terminal giúp trả lời câu hỏi và thu thập thông tin khách hàng (lead capture) thông qua hội thoại tự nhiên.",
+      tags: ["OpenAI", "AI Agent", "Terminal UI"]
     }
   ];
 
