@@ -242,6 +242,12 @@ export default function Home() {
       title: "Contact Studio: Google Maps",
       description: "Trang liên hệ hiện đại tích hợp bản đồ Google Maps tương tác, cho phép người dùng chỉ đường và xem vị trí thực tế.",
       tags: ["Google Maps", "Contact", "Iframe", "Location"]
+    },
+    {
+      id: 72,
+      title: "FluxFrame: Page Builder",
+      description: "Trình xây dựng trang web bằng kéo thả, cho phép sắp xếp lại các khối nội dung và lưu trữ bố cục cục bộ.",
+      tags: ["DND", "Page Builder", "Framer Motion", "Persistence"]
     }
   ];
 
