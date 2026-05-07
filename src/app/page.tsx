@@ -224,6 +224,12 @@ export default function Home() {
       title: "Nexus-Q: Quantum Dashboard",
       description: "Hệ thống Dashboard quản lý tính toán lượng tử với bộ máy tính toán chi phí (Compute Cost Calculator) và giám sát node mạng.",
       tags: ["Dashboard", "Cyberpunk", "Calculators"]
+    },
+    {
+      id: 64,
+      title: "Opti-Core: Image Optimizer",
+      description: "Công cụ tối ưu hóa hình ảnh chuyên sâu, chuyển đổi sang định dạng WebP và AVIF giúp tăng tốc độ tải trang lên đến 90%.",
+      tags: ["Performance", "Utilities", "WebP", "AVIF"]
     }
   ];
 
