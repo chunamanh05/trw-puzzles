@@ -194,6 +194,12 @@ export default function Home() {
       title: "Nexus AI Chat Agent",
       description: "Trợ lý AI phong cách Terminal giúp trả lời câu hỏi và thu thập thông tin khách hàng (lead capture) thông qua hội thoại tự nhiên.",
       tags: ["OpenAI", "AI Agent", "Terminal UI"]
+    },
+    {
+      id: 54,
+      title: "Progressive Disclosure Form",
+      description: "Form tính phí bảo hiểm thông minh, chỉ tiết lộ các câu hỏi tiếp theo khi người dùng đã hoàn thành các bước trước đó, giúp giảm Cognitive Load.",
+      tags: ["UX", "Framer Motion", "Dynamic Form"]
     }
   ];
 

@@ -1,4 +1,5 @@
 {
+  // Triggering TS Server re-scan to clear ghost errors
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],

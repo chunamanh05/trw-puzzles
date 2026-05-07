@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Car, 
@@ -13,8 +13,9 @@ import {
   Building
 } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+// Thay đổi từ @/ sang đường dẫn tương đối để fix lỗi IDE không nhận diện alias
+import { cn } from "../../lib/utils";
+import { Button } from "../../components/ui/button";
 
 type VehicleType = "car" | "taxi" | "electric" | null;
 type PersonType = "physical" | "legal" | null;
