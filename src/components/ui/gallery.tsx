@@ -1,8 +1,8 @@
 "use client";
 
-import { Ref, forwardRef, useState, useEffect } from "react";
+import { Ref, forwardRef, useState, useEffect, useRef } from "react";
 import Image, { ImageProps } from "next/image";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -13,24 +13,28 @@ export const PhotoGallery = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.3 });
 
   useEffect(() => {
-    const visibilityTimer = setTimeout(() => {
-      setIsVisible(true);
-    }, animationDelay * 1000);
+    if (isInView) {
+      const visibilityTimer = setTimeout(() => {
+        setIsVisible(true);
+      }, animationDelay * 1000);
 
-    const animationTimer = setTimeout(
-      () => {
-        setIsLoaded(true);
-      },
-      (animationDelay + 0.4) * 1000
-    );
+      const animationTimer = setTimeout(
+        () => {
+          setIsLoaded(true);
+        },
+        (animationDelay + 0.4) * 1000
+      );
 
-    return () => {
-      clearTimeout(visibilityTimer);
-      clearTimeout(animationTimer);
-    };
-  }, [animationDelay]);
+      return () => {
+        clearTimeout(visibilityTimer);
+        clearTimeout(animationTimer);
+      };
+    }
+  }, [isInView, animationDelay]);
 
   const containerVariants = {
     hidden: { opacity: 1 },
@@ -114,7 +118,7 @@ export const PhotoGallery = ({
   ];
 
   return (
-    <div className="mt-0 relative">
+    <div className="mt-0 relative" ref={containerRef}>
       {/* Grid background */}
       <div className="absolute inset-0 max-md:hidden top-[200px] -z-10 h-[300px] w-full bg-transparent bg-[linear-gradient(to_right,#3f3f46_1px,transparent_1px),linear-gradient(to_bottom,#3f3f46_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
       
