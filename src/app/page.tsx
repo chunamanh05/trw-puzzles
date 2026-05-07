@@ -200,6 +200,12 @@ export default function Home() {
       title: "Progressive Disclosure Form",
       description: "Form tính phí bảo hiểm thông minh, chỉ tiết lộ các câu hỏi tiếp theo khi người dùng đã hoàn thành các bước trước đó, giúp giảm Cognitive Load.",
       tags: ["UX", "Framer Motion", "Dynamic Form"]
+    },
+    {
+      id: 57,
+      title: "Multi-version Landing Pages",
+      description: "Hệ thống A/B Testing với 3 phiên bản Landing Page khác nhau hoàn toàn về phong cách: Cyberpunk, Minimalist và Retro Future.",
+      tags: ["A/B Testing", "Aesthetics", "Design Systems"]
     }
   ];
 
