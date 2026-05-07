@@ -218,6 +218,12 @@ export default function Home() {
       title: "Cinematic Video Hero",
       description: "Giao diện Hero với video nền chất lượng cao, không có thanh điều khiển và tiêu đề đè lên cực kỳ sang trọng.",
       tags: ["Cinematic", "Video", "UX"]
+    },
+    {
+      id: 63,
+      title: "Nexus-Q: Quantum Dashboard",
+      description: "Hệ thống Dashboard quản lý tính toán lượng tử với bộ máy tính toán chi phí (Compute Cost Calculator) và giám sát node mạng.",
+      tags: ["Dashboard", "Cyberpunk", "Calculators"]
     }
   ];
 
