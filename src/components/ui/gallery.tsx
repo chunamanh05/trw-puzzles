@@ -1,15 +1,29 @@
 "use client";
 
-import { Ref, forwardRef, useState, useEffect, useRef } from "react";
+import React, { Ref, forwardRef, useState, useEffect, useRef } from "react";
 import Image, { ImageProps } from "next/image";
 import { motion, useMotionValue, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-export const PhotoGallery = ({
-  animationDelay = 0.5,
-}: {
+interface PhotoGalleryProps {
   animationDelay?: number;
+}
+
+type Direction = "left" | "right";
+
+interface PhotoItem {
+  id: number;
+  order: number;
+  x: string;
+  y: string;
+  zIndex: number;
+  direction: Direction;
+  src: string;
+}
+
+export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
+  animationDelay = 0.5,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -69,14 +83,14 @@ export const PhotoGallery = ({
     }),
   };
 
-  const photos = [
+  const photos: PhotoItem[] = [
     {
       id: 1,
       order: 0,
       x: "-320px",
       y: "15px",
       zIndex: 50,
-      direction: "left" as Direction,
+      direction: "left",
       src: "https://images.pexels.com/photos/32025694/pexels-photo-32025694/free-photo-of-romantic-wedding-in-ancient-ruins.jpeg",
     },
     {
@@ -85,7 +99,7 @@ export const PhotoGallery = ({
       x: "-160px",
       y: "32px",
       zIndex: 40,
-      direction: "left" as Direction,
+      direction: "left",
       src: "https://images.pexels.com/photos/31596551/pexels-photo-31596551/free-photo-of-winter-scene-with-lake-view-in-van-turkiye.jpeg",
     },
     {
@@ -94,7 +108,7 @@ export const PhotoGallery = ({
       x: "0px",
       y: "8px",
       zIndex: 30,
-      direction: "right" as Direction,
+      direction: "right",
       src: "https://images.pexels.com/photos/31890053/pexels-photo-31890053/free-photo-of-moody-portrait-with-heart-shaped-light.jpeg",
     },
     {
@@ -103,7 +117,7 @@ export const PhotoGallery = ({
       x: "160px",
       y: "22px",
       zIndex: 20,
-      direction: "right" as Direction,
+      direction: "right",
       src: "https://images.pexels.com/photos/19936068/pexels-photo-19936068/free-photo-of-women-sitting-on-hilltop-with-clouds-below.jpeg",
     },
     {
@@ -112,7 +126,7 @@ export const PhotoGallery = ({
       x: "320px",
       y: "44px",
       zIndex: 10,
-      direction: "left" as Direction,
+      direction: "left",
       src: "https://images.pexels.com/photos/20494995/pexels-photo-20494995/free-photo-of-head-of-peacock.jpeg",
     },
   ];
@@ -122,18 +136,15 @@ export const PhotoGallery = ({
       {/* Grid background */}
       <div className="absolute inset-0 max-md:hidden top-[200px] -z-10 h-[300px] w-full bg-transparent bg-[linear-gradient(to_right,#3f3f46_1px,transparent_1px),linear-gradient(to_bottom,#3f3f46_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
       
-      {/* Eyebrow */}
       <p className="my-2 text-center text-xs font-light uppercase tracking-widest text-white/30 font-mono">
         A Journey Through Visual Stories
       </p>
       
-      {/* Title */}
       <h3 className="z-20 mx-auto max-w-2xl justify-center bg-gradient-to-r from-white via-white/90 to-white bg-clip-text py-3 text-center text-4xl text-transparent md:text-6xl font-bold tracking-tight">
         Welcome to My{" "}
         <span className="text-rose-500">Stories</span>
       </h3>
 
-      {/* Photo Stack */}
       <div className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex">
         <motion.div
           className="relative mx-auto flex w-full max-w-7xl justify-center"
@@ -170,7 +181,6 @@ export const PhotoGallery = ({
         </motion.div>
       </div>
 
-      {/* CTA */}
       <div className="flex w-full justify-center">
         <Button className="bg-white text-black hover:bg-white/90 px-8 py-3 rounded-full text-sm font-semibold">
           View All Stories
@@ -183,22 +193,28 @@ export const PhotoGallery = ({
 /* ─── Internals ─────────────────────────────── */
 
 function getRandomNumberInRange(min: number, max: number): number {
-  if (min >= max) throw new Error("Min must be less than max");
   return Math.random() * (max - min) + min;
 }
 
 const MotionImage = motion(
-  forwardRef(function MotionImageInner(
-    props: ImageProps,
-    ref: Ref<HTMLImageElement>
+  forwardRef<HTMLImageElement, ImageProps>(function MotionImageInner(
+    props,
+    ref
   ) {
     return <Image ref={ref} {...props} />;
   })
 );
 
-type Direction = "left" | "right";
+interface PhotoProps {
+  src: string;
+  alt: string;
+  className?: string;
+  direction?: Direction;
+  width: number;
+  height: number;
+}
 
-export const Photo = ({
+export const Photo: React.FC<PhotoProps> = ({
   src,
   alt,
   className,
@@ -206,13 +222,6 @@ export const Photo = ({
   width,
   height,
   ...props
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  direction?: Direction;
-  width: number;
-  height: number;
 }) => {
   const [rotation, setRotation] = useState<number>(0);
   const x = useMotionValue(200);
@@ -224,15 +233,11 @@ export const Photo = ({
     setRotation(randomRotation);
   }, [direction]);
 
-  function handleMouse(event: {
-    currentTarget: { getBoundingClientRect: () => DOMRect };
-    clientX: number;
-    clientY: number;
-  }) {
+  const handleMouse = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     x.set(event.clientX - rect.left);
     y.set(event.clientY - rect.top);
-  }
+  };
 
   const resetMouse = () => {
     x.set(200);
