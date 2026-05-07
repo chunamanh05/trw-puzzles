@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   */
   serverExternalPackages: ["@xenova/transformers", "onnxruntime-node"],
 
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
+  },
+
   // Webpack config (dùng khi build production / next start)
   webpack: (config) => {
     config.resolve.fallback = {

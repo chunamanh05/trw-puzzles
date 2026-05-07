@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { PhotoGallery } from "@/components/ui/gallery";
 
 interface Testimonial {
   id: number;
@@ -61,7 +62,7 @@ export default function StackedTestimonialSlider() {
   const currentTestimonial = TESTIMONIALS[currentIndex];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#fcfcfc] overflow-hidden flex flex-col items-center justify-center p-6 selection:bg-accent-primary/30">
+    <div className="min-h-screen bg-[#050505] text-[#fcfcfc] overflow-x-hidden selection:bg-accent-primary/30">
       <style jsx global>{`
         .glass-panel {
           background: rgba(255, 255, 255, 0.03);
@@ -82,7 +83,7 @@ export default function StackedTestimonialSlider() {
         </Link>
       </nav>
 
-      <main className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <main className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center min-h-screen py-24 px-6">
         
         {/* Left Side: Stacked Cards */}
         <div className="relative flex justify-center items-center h-[400px] lg:h-[600px]">
@@ -199,6 +200,20 @@ export default function StackedTestimonialSlider() {
           </div>
         </div>
       </main>
+
+      {/* ─── Section 2: 21st.dev PhotoGallery Component ─── */}
+      <section className="relative w-full border-t border-white/5 py-24 px-6 overflow-hidden">
+        {/* Section label */}
+        <div className="max-w-6xl mx-auto mb-16 flex items-center gap-4">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20">
+            21st.dev Component — Photo Gallery
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
+
+        <PhotoGallery animationDelay={0.3} />
+      </section>
 
       {/* Background ID Tag */}
       <div className="fixed bottom-8 right-8 text-[15vh] font-bold text-white/[0.02] pointer-events-none select-none font-mono">
