@@ -254,6 +254,12 @@ export default function Home() {
       title: "Nexus Command Center",
       description: "Hệ thống điều khiển bằng bàn phím (Ctrl+K), cho phép tìm kiếm và thực thi các lệnh hệ thống cực nhanh.",
       tags: ["UX", "Command Palette", "Keyboard", "Efficiency"]
+    },
+    {
+      id: 108,
+      title: "PrivacyShield: Smart Consent",
+      description: "Hệ thống quản lý quyền riêng tư và cookie thông minh, cho phép tùy chỉnh các danh mục theo ý muốn người dùng.",
+      tags: ["Privacy", "GDPR", "UI/UX", "LocalStorage"]
     }
   ];
 
