@@ -10,16 +10,16 @@ Thử thách xây dựng một hệ thống quản lý tùy chọn quyền riên
 - **Tailwind CSS**: Thiết kế giao diện hiện đại với phong cách "Privacy Center" tối giản.
 
 ## 💡 Giải pháp kỹ thuật
-1.  **Independent Preference Management**: Mỗi danh mục được lưu trữ độc lập trong một đối tượng State. Mục "Essential" được cố định là `true` vì đây là các cookie bắt buộc để web chạy được.
-2.  **Smart Persistence**: Hệ thống tự động kiểm tra `localStorage` khi tải trang. Nếu chưa có lựa chọn, Banner sẽ hiện ra sau 1 giây. Nếu đã có, hệ thống sẽ im lặng tải các cấu hình đã lưu.
-3.  **UI/UX Flow**: Người dùng có 3 lối thoát (Accept All, Reject All, Customize). Điều này giúp cân bằng giữa trải nghiệm người dùng (UX) và tính tuân thủ pháp lý (GDPR).
-4.  **Status Dashboard**: Hiển thị trực quan trạng thái hiện tại (Enabled/Disabled) của các dịch vụ ngay trên trang chính.
+1.  **Dashboard Architecture**: Chuyển đổi từ dạng Banner/Modal sang giao diện Dashboard 2 cột tập trung.
+2.  **Smart Persistence**: Tích hợp thông báo "Preferences saved" mượt mà khi người dùng thao tác, dữ liệu lưu ngay vào `localStorage`.
+3.  **AnimatePresence**: Xử lý việc ẩn/hiện bảng điều khiển. Khi ẩn, hệ thống thu gọn về một Floating Action Button (FAB) hình khiên.
+4.  **Real-time Statistics**: Sử dụng `useMemo` để tính toán số lượng mục Enabled/Disabled ngay khi State thay đổi.
 
 ## 🚀 Tính năng chính
-- [x] **4 Categories**: Essential, Analytics, Marketing, Functional.
-- [x] **Three Actions**: Chấp nhận tất cả, Từ chối tất cả hoặc Tùy chỉnh chi tiết.
-- [x] **LocalStorage**: Lưu cài đặt vĩnh viễn trên máy người dùng.
-- [x] **Privacy Center**: Giao diện Modal chi tiết để giải thích từng loại Cookie.
+- [x] **5 Categories**: Cấu trúc đầy đủ cho một nền tảng chuyên nghiệp.
+- [x] **Status Widget**: Bảng tóm tắt trạng thái trực quan ở cột bên phải.
+- [x] **Hide/Show Flow**: Cho phép ẩn bảng điều khiển và mở lại qua FAB icon.
+- [x] **Dark Dashboard**: Giao diện tối hiện đại, tập trung vào trải nghiệm người dùng.
 
 ## 🏷️ Tags
 `Privacy` · `GDPR` · `UI/UX` · `LocalStorage`
