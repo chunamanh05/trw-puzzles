@@ -266,6 +266,18 @@ export default function Home() {
       title: "AccessAudit Pro",
       description: "Công cụ kiểm tra tính dễ tiếp cận (A11y) của website theo tiêu chuẩn WCAG, đưa ra báo cáo và hướng dẫn sửa lỗi.",
       tags: ["Accessibility", "Audit", "WCAG", "UX"]
+    },
+    {
+      id: 76,
+      title: "FlowForm: Multi-step",
+      description: "Hệ thống form đăng ký nhiều bước với thanh tiến trình, kiểm tra tính hợp lệ và tự động lưu dữ liệu.",
+      tags: ["Form", "UX", "Validation", "LocalStorage"]
+    },
+    {
+      id: 77,
+      title: "Studio-X: Theme Customizer",
+      description: "Bảng điều khiển tùy biến giao diện thời gian thực (Màu sắc, Bo góc, Dark Mode) bằng biến CSS.",
+      tags: ["Theming", "CSS Variables", "DesignSystem", "UI"]
     }
   ];
 
