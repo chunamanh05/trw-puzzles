@@ -302,6 +302,12 @@ export default function Home() {
       title: "CityPulse: Area Checker",
       description: "Công cụ kiểm tra phạm vi phục vụ theo thành phố hoặc mã bưu chính với thuật toán tìm kiếm thông minh.",
       tags: ["Geofencing", "Search", "UX", "UI"]
+    },
+    {
+      id: 84,
+      title: "SnapQuote: Photo Quote Form",
+      description: "Hệ thống yêu cầu báo giá qua hình ảnh với tính năng xem trước thời gian thực và xác thực dữ liệu chặt chẽ.",
+      tags: ["Forms", "FileUpload", "UX", "UI"]
     }
   ];
 
