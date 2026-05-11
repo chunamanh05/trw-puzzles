@@ -82,10 +82,10 @@ const OUTCOMES = {
 
 export default function Puzzle82ServiceRouter() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState<any>({});
   const [showResult, setShowResult] = useState(false);
 
-  const handleSelect = (questionId, value) => {
+  const handleSelect = (questionId: string, value: string) => {
     const newAnswers = { ...answers, [questionId]: value };
     setAnswers(newAnswers);
 
@@ -103,7 +103,7 @@ export default function Puzzle82ServiceRouter() {
   };
 
   const progress = ((step + (showResult ? 1 : 0)) / QUESTIONS.length) * 100;
-  const outcome = showResult ? getOutcome() : null;
+  const outcome = showResult ? getOutcome() : OUTCOMES.starter;
 
   return (
     <div className="min-h-screen bg-[#020617] text-white font-sans selection:bg-indigo-500/30 overflow-hidden flex flex-col">
@@ -283,12 +283,12 @@ export default function Puzzle82ServiceRouter() {
       </main>
 
       {/* Custom Styles for Slider-like progress if needed */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         body { background: #020617; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-      `}</style>
+      `}} />
     </div>
   );
 }
