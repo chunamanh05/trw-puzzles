@@ -296,6 +296,12 @@ export default function Home() {
       title: "StrategyMatcher: Service Router",
       description: "Bộ lọc khách hàng thông minh, tự động điều hướng người dùng đến dịch vụ phù hợp dựa trên nhu cầu.",
       tags: ["LeadGen", "UXFlow", "MultiStep", "UI"]
+    },
+    {
+      id: 83,
+      title: "CityPulse: Area Checker",
+      description: "Công cụ kiểm tra phạm vi phục vụ theo thành phố hoặc mã bưu chính với thuật toán tìm kiếm thông minh.",
+      tags: ["Geofencing", "Search", "UX", "UI"]
     }
   ];
 
