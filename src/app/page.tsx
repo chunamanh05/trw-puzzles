@@ -344,6 +344,12 @@ export default function Home() {
       title: "PageForge: AI-Ready Page Builder",
       description: "Công cụ tạo trang Landing Page tự động tối ưu cho tìm kiếm AI với cấu trúc câu trả lời trực diện.",
       tags: ["SEO", "AI-Search", "LandingPage", "Automation"]
+    },
+    {
+      id: 91,
+      title: "ScrollStory: Interactive Narrative",
+      description: "Hệ thống kể chuyện tương tác dựa trên thao tác cuộn chuột với hiệu ứng tiết lộ nội dung theo ngữ cảnh.",
+      tags: ["Storytelling", "ScrollReveal", "FramerMotion", "UX"]
     }
   ];
 
