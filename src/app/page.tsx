@@ -290,6 +290,12 @@ export default function Home() {
       title: "AutomateROI: Real-time Calculator",
       description: "Máy tính lợi tức đầu tư (ROI) thời gian thực dành cho AI Agency với hiệu ứng nhảy số siêu mượt.",
       tags: ["Calculator", "FramerMotion", "State", "UI"]
+    },
+    {
+      id: 82,
+      title: "StrategyMatcher: Service Router",
+      description: "Bộ lọc khách hàng thông minh, tự động điều hướng người dùng đến dịch vụ phù hợp dựa trên nhu cầu.",
+      tags: ["LeadGen", "UXFlow", "MultiStep", "UI"]
     }
   ];
 
