@@ -284,6 +284,12 @@ export default function Home() {
       title: "ConversionBoost: Sticky CTA",
       description: "Thanh CTA bám dính thông minh, tự động thay đổi nội dung theo ngữ cảnh và hiển thị các yếu tố tin cậy.",
       tags: ["Marketing", "UX", "Conversion", "UI"]
+    },
+    {
+      id: 80,
+      title: "AutomateROI: Real-time Calculator",
+      description: "Máy tính lợi tức đầu tư (ROI) thời gian thực dành cho AI Agency với hiệu ứng nhảy số siêu mượt.",
+      tags: ["Calculator", "FramerMotion", "State", "UI"]
     }
   ];
 
