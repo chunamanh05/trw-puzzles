@@ -338,6 +338,12 @@ export default function Home() {
       title: "TechDiagnose: Smart Support Wizard",
       description: "Bộ chẩn đoán sự cố thông minh với logic phân nhánh câu hỏi và báo cáo chẩn đoán chuyên nghiệp.",
       tags: ["Support", "Logic", "UX", "UI"]
+    },
+    {
+      id: 90,
+      title: "PageForge: AI-Ready Page Builder",
+      description: "Công cụ tạo trang Landing Page tự động tối ưu cho tìm kiếm AI với cấu trúc câu trả lời trực diện.",
+      tags: ["SEO", "AI-Search", "LandingPage", "Automation"]
     }
   ];
 
