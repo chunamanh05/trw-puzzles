@@ -314,6 +314,12 @@ export default function Home() {
       title: "VisuCompare: Before/After Slider",
       description: "Trình so sánh hình ảnh trực quan với cơ chế trượt mượt mà, hỗ trợ tốt cho cả máy tính và thiết bị di động.",
       tags: ["Visuals", "Slider", "UX", "UI"]
+    },
+    {
+      id: 86,
+      title: "HourGuard: Availability System",
+      description: "Hệ thống kiểm tra giờ làm việc và trạng thái hỗ trợ khẩn cấp thời gian thực.",
+      tags: ["RealTime", "BusinessLogic", "UX", "UI"]
     }
   ];
 
