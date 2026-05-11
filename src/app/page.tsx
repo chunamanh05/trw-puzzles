@@ -326,6 +326,12 @@ export default function Home() {
       title: "LaunchPad: Readiness Checker",
       description: "Công cụ kiểm tra độ sẵn sàng của khách hàng với hệ thống checklist và tiến độ trực quan.",
       tags: ["Workflow", "Checklist", "UX", "UI"]
+    },
+    {
+      id: 88,
+      title: "BranchFlow: Location Switcher",
+      description: "Bộ chuyển đổi chi nhánh đa địa điểm với tính năng ghi nhớ lựa chọn người dùng qua LocalStorage.",
+      tags: ["Franchise", "StateManagement", "UX", "UI"]
     }
   ];
 
