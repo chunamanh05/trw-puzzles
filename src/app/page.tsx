@@ -260,6 +260,12 @@ export default function Home() {
       title: "PrivacyShield: Smart Consent",
       description: "Hệ thống quản lý quyền riêng tư và cookie thông minh, cho phép tùy chỉnh các danh mục theo ý muốn người dùng.",
       tags: ["Privacy", "GDPR", "UI/UX", "LocalStorage"]
+    },
+    {
+      id: 109,
+      title: "AccessAudit Pro",
+      description: "Công cụ kiểm tra tính dễ tiếp cận (A11y) của website theo tiêu chuẩn WCAG, đưa ra báo cáo và hướng dẫn sửa lỗi.",
+      tags: ["Accessibility", "Audit", "WCAG", "UX"]
     }
   ];
 
