@@ -308,6 +308,12 @@ export default function Home() {
       title: "SnapQuote: Photo Quote Form",
       description: "Hệ thống yêu cầu báo giá qua hình ảnh với tính năng xem trước thời gian thực và xác thực dữ liệu chặt chẽ.",
       tags: ["Forms", "FileUpload", "UX", "UI"]
+    },
+    {
+      id: 85,
+      title: "VisuCompare: Before/After Slider",
+      description: "Trình so sánh hình ảnh trực quan với cơ chế trượt mượt mà, hỗ trợ tốt cho cả máy tính và thiết bị di động.",
+      tags: ["Visuals", "Slider", "UX", "UI"]
     }
   ];
 
