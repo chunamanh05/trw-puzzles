@@ -278,6 +278,12 @@ export default function Home() {
       title: "Studio-X: Theme Customizer",
       description: "Bảng điều khiển tùy biến giao diện thời gian thực (Màu sắc, Bo góc, Dark Mode) bằng biến CSS.",
       tags: ["Theming", "CSS Variables", "DesignSystem", "UI"]
+    },
+    {
+      id: 79,
+      title: "ConversionBoost: Sticky CTA",
+      description: "Thanh CTA bám dính thông minh, tự động thay đổi nội dung theo ngữ cảnh và hiển thị các yếu tố tin cậy.",
+      tags: ["Marketing", "UX", "Conversion", "UI"]
     }
   ];
 
