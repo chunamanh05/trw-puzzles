@@ -332,6 +332,12 @@ export default function Home() {
       title: "BranchFlow: Location Switcher",
       description: "Bộ chuyển đổi chi nhánh đa địa điểm với tính năng ghi nhớ lựa chọn người dùng qua LocalStorage.",
       tags: ["Franchise", "StateManagement", "UX", "UI"]
+    },
+    {
+      id: 89,
+      title: "TechDiagnose: Smart Support Wizard",
+      description: "Bộ chẩn đoán sự cố thông minh với logic phân nhánh câu hỏi và báo cáo chẩn đoán chuyên nghiệp.",
+      tags: ["Support", "Logic", "UX", "UI"]
     }
   ];
 
