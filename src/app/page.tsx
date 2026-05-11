@@ -320,6 +320,12 @@ export default function Home() {
       title: "HourGuard: Availability System",
       description: "Hệ thống kiểm tra giờ làm việc và trạng thái hỗ trợ khẩn cấp thời gian thực.",
       tags: ["RealTime", "BusinessLogic", "UX", "UI"]
+    },
+    {
+      id: 87,
+      title: "LaunchPad: Readiness Checker",
+      description: "Công cụ kiểm tra độ sẵn sàng của khách hàng với hệ thống checklist và tiến độ trực quan.",
+      tags: ["Workflow", "Checklist", "UX", "UI"]
     }
   ];
 
